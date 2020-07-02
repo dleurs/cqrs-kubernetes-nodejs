@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cqrs-k8s-entrypoint
-  name: cqrs-k8s-entrypoint
+    app: cqrs-k8s-response
+  name: cqrs-k8s-response
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cqrs-k8s-entrypoint
+      app: cqrs-k8s-response
   strategy: {}
   template:
     metadata:
       labels:
-        app: cqrs-k8s-entrypoint
+        app: cqrs-k8s-response
     spec:
       containers:
-      - image: dleurs/cqrs-k8s-entrypoint:1.0.0
-        name: cqrs-k8s-entrypoint
+      - image: dleurs/cqrs-k8s-response:1.0.0
+        name: cqrs-k8s-response
         ports:
         - containerPort: 8080
         env:
@@ -32,8 +32,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: cqrs-k8s-entrypoint
-  name: cqrs-k8s-entrypoint-svc
+    app: cqrs-k8s-response
+  name: cqrs-k8s-response-svc
 spec:
   ports:
   - port: 80
@@ -41,7 +41,7 @@ spec:
     targetPort: 8080
     name: http
   selector:
-    app: cqrs-k8s-entrypoint
+    app: cqrs-k8s-response
   type: LoadBalancer
 status:
   loadBalancer: {}
