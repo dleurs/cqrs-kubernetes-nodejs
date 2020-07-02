@@ -19,12 +19,10 @@ spec:
       - image: dleurs/cqrs-k8s-response:1.0.0
         name: cqrs-k8s-response
         ports:
-        - containerPort: 8080
+        - containerPort: 8081
         env:
           - name: PORT
-            value: "8080"
-          - name: DBURL
-            value: "mongodb://root:GOMy2VxWaH@release-1-mongodb.default.svc.cluster.local:27017/todoProject?authSource=admin"
+            value: "8081"
         resources: {}
 status: {}
 ---
@@ -38,7 +36,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 8081
     name: http
   selector:
     app: cqrs-k8s-response

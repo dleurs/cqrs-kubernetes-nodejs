@@ -5,7 +5,7 @@ import querystring from 'querystring';
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const responseUrl: string = process.env.RESPONSEURL || "http://localhost:8081"//"http://response.default.svc.cluster.local";
+const responseUrl: string = process.env.RESPONSEURL || "http://localhost:8081"
 
 app.get('/', (_, res, __) => // _ = next
 {
