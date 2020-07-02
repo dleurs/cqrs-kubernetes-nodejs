@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nodejs-mongodb
+  name: nodejs-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-mongodb
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nodejs-mongodb
+    spec:
+      containers:
+      - image: dleurs/webview-nodejs:1.0.5
+        name: nodejs-mongodb
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PORT
+            value: "8080"
+          - name: DBURL
+            value: "mongodb://root:GOMy2VxWaH@release-1-mongodb.default.svc.cluster.local:27017/todoProject?authSource=admin"
+          - name: MD5HASHURL
+            value: "http://hash-md5.default.svc.cluster.local"
+          - name: SHA1HASHURL
+            value: "http://hash-sha1.default.svc.cluster.local"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nodejs-mongodb
+  name: nodejs-mongodb-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+    name: http
+  selector:
+    app: nodejs-mongodb
+  type: LoadBalancer
+status:
+  loadBalancer: {}

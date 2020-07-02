@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: base64
+  name: base64
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: base64
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: base64
+    spec:
+      containers:
+      - image: dleurs/base64:1.0.0
+        name: base64
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+---
+# Test with kubectl run --namespace default testing-nodejs-app-2 --rm --tty -i --restart='Never' --image curlimages/curl --command -- curl -v http://hash-md5.default.svc.cluster.local/Dimitri
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: base64
+  name: base64
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: base64
+  type: ClusterIP
+status:
+  loadBalancer: {}

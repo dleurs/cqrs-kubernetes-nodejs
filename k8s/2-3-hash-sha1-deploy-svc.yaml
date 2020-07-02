@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hash-sha1
+  name: hash-sha1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hash-sha1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: hash-sha1
+    spec:
+      containers:
+      - image: dleurs/hash-sha1:1.0.0
+        name: hash-sha1
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+---
+# Test with kubectl run --namespace default testing-nodejs-app-2 --rm --tty -i --restart='Never' --image curlimages/curl --command -- curl -v http://hash-sha1.default.svc.cluster.local/Dimitri
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hash-sha1
+  name: hash-sha1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hash-sha1
+  type: ClusterIP
+status:
+  loadBalancer: {}
