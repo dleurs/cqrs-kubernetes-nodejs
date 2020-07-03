@@ -10,7 +10,7 @@ const queryUrl: string = process.env.QUERYURL || "http://localhost:8081"
 
 app.get('/', async (_, res, ___) => // _ ,__, ___ = req, res, next
 {
-  console.log(`EntryPoint "/" request received`);
+  console.log(`serviceInterface "/" request received`);
   const data = querystring.stringify({
     "msg": "John"
   });
@@ -31,6 +31,6 @@ const port: string = process.env.PORT || "8080";
 const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
-  console.log(`EntryPoint running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(`serviceInterface running at http://localhost:${port}/ in ${nodeEnv}`);
   console.log(`queryURL : ${queryUrl}`)
 });
