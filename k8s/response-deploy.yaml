@@ -25,21 +25,3 @@ spec:
             value: "8081"
         resources: {}
 status: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: cqrs-k8s-response
-  name: cqrs-k8s-response-svc
-spec:
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 8081
-    name: http
-  selector:
-    app: cqrs-k8s-response
-  type: LoadBalancer
-status:
-  loadBalancer: {}
