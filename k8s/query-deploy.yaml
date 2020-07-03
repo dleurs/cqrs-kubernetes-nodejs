@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cqrs-k8s-response
-  name: cqrs-k8s-response
+    app: cqrs-k8s-query
+  name: cqrs-k8s-query
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cqrs-k8s-response
+      app: cqrs-k8s-query
   strategy: {}
   template:
     metadata:
       labels:
-        app: cqrs-k8s-response
+        app: cqrs-k8s-query
     spec:
       containers:
-      - image: dleurs/cqrs-k8s-response:1.0.0
-        name: cqrs-k8s-response
+      - image: dleurs/cqrs-k8s-query:1.0.0
+        name: cqrs-k8s-query
         ports:
         - containerPort: 8081
         env:

@@ -14,5 +14,5 @@ const port: string = process.env.PORT || "8081";
 const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
-  console.log(`Response running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(`query running at http://localhost:${port}/ in ${nodeEnv}`);
 });
