@@ -1,32 +1,32 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-//import querystring from 'querystring';
-import axios from 'axios';
+import { orderCommandRoutes } from './routes/command-order';
+
 
 const app: express.Application = express();
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-const commandOrderUrl: string = process.env.COMMANDORDERURL || "http://localhost:8081"
-const queryOrderUrl: string = process.env.QUERYORDERBURL || "http://localhost:8084"
+export const commandOrderUrl: string = process.env.COMMANDORDERURL || "http://localhost:8081"
+export const queryOrderUrl: string = process.env.QUERYORDERBURL || "http://localhost:8084"
 
-app.post('/order', async (req, res, _) => {
-  //console.log(req);
-  try
-  {
-    await axios.post(commandOrderUrl, req.body); // req.body == "msg": "John"
-    return res.status(200).send("Action received and being treated");
-  } catch (exception)
-  {
-    process.stderr.write(`ERROR in Dispatcher for url ${commandOrderUrl}: ${exception}\n`);
-    return res.status(500).send(`ERROR in Dispatcher for url ${commandOrderUrl}: ${exception}\n`);
-  }
-});
+app.use('/order', orderCommandRoutes);
 
 app.get('/', async (_, res, ___) => // _ ,__, ___ = req, res, next
 {
-  res.write(`<h1>Welcome into a simple CQRS example</h1>`);
-  res.write(`<h2>Hosted on Kubernetes and coded with NodeJS / TypeScript</h2>`);
-  res.send();
+  const title: string = `<h1>Welcome into a simple CQRS example</h1>
+  Hosted on Kubernetes and coded with NodeJS / TypeScript`;
+  const addTodoForm: string = `<h3>Add an order</h3> 
+  <form action="/order" method="POST">
+    <label for="product-select">Choose a product:</label>
+    <select name="product" id="product-select">
+      <option value="apple">Apple</option>
+      <option value="pear">Pear</option>
+    </select><br/>
+    <label for="quantity-select">Quantity:</label> <input id="quantity-select" name="quantity" type="number" min="1" step="1"/><br/>
+    <label for="price-select">Unit price:</label> <input id="price-select" name="price" type="number" min="0" step="any"/><br/>
+    <button type="submit">Add an order</button>
+  </form>`;
+  res.send(title + addTodoForm);
 });
 
 const port: string = process.env.PORT || "8080";

@@ -7,11 +7,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 const orderDbUrl: string = process.env.COMMANDORDERURL || "http://localhost:8082"
 const processDataUrl: string = process.env.QUERYORDERBURL || "http://localhost:8083"
 
-app.post('/', (_, res, __) => // _ = next
+app.post('/', ( req, res, __) => // _ = next
 {
   console.log(`Request received`);
-  //console.log(req);
-  res.status(200).send();
+  console.log(req.body);
+  return res.send(202);
 });
 
 const port: string = process.env.PORT || "8081";
