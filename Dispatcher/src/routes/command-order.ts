@@ -17,7 +17,7 @@ orderCommandRoutes.post('/', async (req, res, _) =>
     }
     else
     {
-      return res.status(500).send(`Server error from CommandOrder`);
+      return res.status(response.status).send(`Server error from CommandOrder`);
     }
   } catch (exception)
   {
