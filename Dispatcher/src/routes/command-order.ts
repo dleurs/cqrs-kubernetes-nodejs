@@ -3,13 +3,15 @@ import querystring from 'querystring';
 import axios, { AxiosResponse } from 'axios';
 import { commandOrderUrl } from '../main';
 
-export const orderCommandRoutes = Router();
+export const commandOrderRoutes = Router();
 
-orderCommandRoutes.post('/', async (req, res, _) =>
+commandOrderRoutes.post('/', async (req, res, _) =>
 {
   //console.log(req);
   try
   {
+    console.log(`Request received`);
+    console.log(`Body :`, req.body);
     let response: AxiosResponse = await axios.post(commandOrderUrl, querystring.encode(req.body)); // req.body == "msg": "John"
     if (response.status == 202)
     {
@@ -21,7 +23,7 @@ orderCommandRoutes.post('/', async (req, res, _) =>
     }
   } catch (exception)
   {
-    process.stderr.write(`ERROR in Dispatcher for url ${commandOrderUrl}: ${exception}\n`);
-    return res.status(500).send(`ERROR in Dispatcher for url ${commandOrderUrl}: ${exception}\n`);
+    process.stderr.write(`ERROR in Dispatcher for commandOrderUrl ${commandOrderUrl}: ${exception}\n`);
+    return res.status(500).send(`ERROR in Dispatcher for commandOrderUrl ${commandOrderUrl}: ${exception}\n`);
   }
 });

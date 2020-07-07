@@ -16,22 +16,26 @@ app.post('/', async (req, res, __) => // _ = next
   try
   {
     // validating req.body
+    res.sendStatus(202);
     let responseOrderDb: AxiosResponse = await axios.post(orderDbUrl, querystring.encode(req.body));
-    try
+    if (responseOrderDb.status == 201)
     {
-      let responseProcessData: AxiosResponse = await axios.post(processDataUrl, querystring.encode(req.body));
-      return res.send(responseProcessData.status);
+      try
+      {
+        await axios.put(processDataUrl);
+      }
+      catch (exception)
+      {
+        process.stderr.write(`ERROR in CommandOrder for processDataUrl ${processDataUrl}: ${exception}\n`);
+      }
     }
-    catch (exception)
+    else
     {
-      process.stderr.write(`ERROR in CommandOrder for url ${processDataUrl}: ${exception}\n`);
-      return res.status(500).send(`ERROR in CommandOrder for url ${processDataUrl}: ${exception}\n`);
+      throw ("responseOrderDb.status is not 201");
     }
-    return res.send(responseOrderDb.status);
   } catch (exception)
   {
-    process.stderr.write(`ERROR in CommandOrder for url ${orderDbUrl}: ${exception}\n`);
-    return res.status(500).send(`ERROR in CommandOrder for url ${orderDbUrl}: ${exception}\n`);
+    process.stderr.write(`ERROR in CommandOrder for orderDbUrl ${orderDbUrl}: ${exception}\n`);
   }
 });
 

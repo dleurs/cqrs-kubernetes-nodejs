@@ -5,7 +5,8 @@
     "main": "./src/main.ts",
     "scripts": {
         "build": "tsc",
-        "prestart": "npm run build",
+        "clean": "/bin/rm -rf ./build",
+        "prestart": "npm run clean; npm run build",
         "start": "node ./build/main.js",
         "dev": "nodemon --inspect src/main.ts"
     },

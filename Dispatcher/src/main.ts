@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { orderCommandRoutes } from './routes/command-order';
+import { commandOrderRoutes } from './routes/command-order';
 
 
 const app: express.Application = express();
@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 export const commandOrderUrl: string = process.env.COMMANDORDERURL || "http://localhost:8081"
 export const queryOrderUrl: string = process.env.QUERYORDERBURL || "http://localhost:8084"
 
-app.use('/order', orderCommandRoutes);
+app.use('/order', commandOrderRoutes);
 
 app.get('/', async (_, res, ___) => // _ ,__, ___ = req, res, next
 {
