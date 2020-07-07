@@ -34,6 +34,6 @@ const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
   console.log(`Dispatcher running at http://localhost:${port}/ in ${nodeEnv}`);
-  console.log(`commandOrderUrl : ${commandOrderUrl}`);
-  console.log(`queryOrderUrl : ${queryOrderUrl}`);
+  console.log(`Dispatcher variable = commandOrderUrl : ${commandOrderUrl}`);
+  console.log(`Dispatcher variable = queryOrderUrl : ${queryOrderUrl}`);
 });

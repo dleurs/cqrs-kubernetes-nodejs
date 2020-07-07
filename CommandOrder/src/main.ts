@@ -16,8 +16,18 @@ app.post('/', async (req, res, __) => // _ = next
   try
   {
     // validating req.body
-    let response: AxiosResponse = await axios.post(orderDbUrl, querystring.encode(req.body)); // req.body == "msg": "John"
-    return res.send(response.status);
+    let responseOrderDb: AxiosResponse = await axios.post(orderDbUrl, querystring.encode(req.body));
+    try
+    {
+      let responseProcessData: AxiosResponse = await axios.post(processDataUrl, querystring.encode(req.body));
+      return res.send(responseProcessData.status);
+    }
+    catch (exception)
+    {
+      process.stderr.write(`ERROR in CommandOrder for url ${processDataUrl}: ${exception}\n`);
+      return res.status(500).send(`ERROR in CommandOrder for url ${processDataUrl}: ${exception}\n`);
+    }
+    return res.send(responseOrderDb.status);
   } catch (exception)
   {
     process.stderr.write(`ERROR in CommandOrder for url ${orderDbUrl}: ${exception}\n`);
@@ -31,6 +41,6 @@ const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
   console.log(`CommandOrder running at http://localhost:${port}/ in ${nodeEnv}`);
-  console.log(`orderDbUrl : ${orderDbUrl}`);
-  console.log(`processDataUrl : ${processDataUrl}`);
+  console.log(`CommandOrder variable = orderDbUrl : ${orderDbUrl}`);
+  console.log(`CommandOrder variable = processDataUrl : ${processDataUrl}`);
 });
