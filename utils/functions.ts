@@ -5,15 +5,21 @@ const totalPriceStr: string = "totalPrice";
 const appleStr: string = "apple";
 const pearStr: string = "pear";
 
-export function initApplePearTotalOrderedData(): any
+/*
+const appleQuantityStr: string = "appleQuantity";
+const appleTotalPrice: string = "appleTotalPrice";
+const pearQuantityStr = "pearQuantity";
+const pearTotalPriceStr = "pearTotalPrice";*/
+
+export function initApplePearTotalOrderedData(appleQuantity?: number, appleTotalPrice?: number, pearQuantity?: number, pearTotalPrice?: number): any
 {
   let totalOrderedData: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
   let apple: Map<string, number> = new Map<string, number>();
-  apple.set(quantityStr, 0);
-  apple.set(totalPriceStr, 0);
+  apple.set(quantityStr, appleQuantity || 0);
+  apple.set(totalPriceStr, appleTotalPrice || 0);
   let pear: Map<string, number> = new Map<string, number>();
-  pear.set(quantityStr, 0);
-  pear.set(totalPriceStr, 0);
+  pear.set(quantityStr, pearQuantity || 0);
+  pear.set(totalPriceStr, pearTotalPrice || 0);
   totalOrderedData.set(appleStr, apple);
   totalOrderedData.set(pearStr, pear);
   return [apple, pear, totalOrderedData];
@@ -38,4 +44,15 @@ export function fillTotalOrderedData(listOrder: Array<any>): Map<string, Map<str
     }
   }
   return newTotalOrderedData;
+}
+
+export function totalOrderedDataToObject(totalOrderedData:  Map<string, Map<string, number>>): any
+{
+  let data = {
+    appleQuantity: totalOrderedData.get(appleStr)?.get(quantityStr)?.toString() || "0",
+    appleTotalPrice: totalOrderedData.get(appleStr)?.get(totalPriceStr)?.toString() || "0",
+    pearQuantity: totalOrderedData.get(pearStr)?.get(quantityStr)?.toString() || "0",
+    pearTotalPrice: totalOrderedData.get(pearStr)?.get(totalPriceStr)?.toString() || "0"
+  };
+  return data;
 }

@@ -1,13 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import axios, { AxiosResponse } from 'axios';
-import { initApplePearTotalOrderedData, fillTotalOrderedData } from './utils/functions';
+import querystring from 'querystring';
+import { fillTotalOrderedData, totalOrderedDataToObject } from '../../utils/functions';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-
-//const orderDbUrl: string = process.env.ORDERDBURL || "http://localhost:8082"
-let emptyTotalOrderedData = initApplePearTotalOrderedData()[2];
 
 const orderDbUrl: string = process.env.ORDERDBURL || "http://localhost:8082"
 const statsOrderDbUrl: string = process.env.STATSORDERDBURL || "http://localhost:8085"
@@ -18,9 +16,18 @@ app.put('/', async (_, res, __) => // _ = next
   res.sendStatus(202);
   try
   {
-    let response: AxiosResponse = await axios.get(orderDbUrl);
-    let totalOrderedData = fillTotalOrderedData(response.data.orderDb);
+    let responseOrderDbUrl: AxiosResponse = await axios.get(orderDbUrl);
+    let totalOrderedData = fillTotalOrderedData(responseOrderDbUrl.data.orderDb);
     console.log(totalOrderedData);
+    let appleData = totalOrderedDataToObject(totalOrderedData);
+    try
+    {
+      await axios.put(statsOrderDbUrl, querystring.encode(appleData));
+    }
+    catch (exception)
+    {
+      process.stderr.write(`ERROR in CommandOrder for statsOrderDbUrl ${statsOrderDbUrl}: ${exception}\n`);
+    }
   }
   catch (exception)
   {
@@ -35,5 +42,4 @@ app.listen(parseInt(port), function ()
   console.log(`ProcessData running at http://localhost:${port}/ in ${nodeEnv}`);
   console.log(`ProcessData variable = orderDbUrl : ${orderDbUrl}`);
   console.log(`ProcessData variable = statsOrderDbUrl : ${statsOrderDbUrl}`);
-  console.log("Initial totalOrderedData : ", emptyTotalOrderedData);
 });
