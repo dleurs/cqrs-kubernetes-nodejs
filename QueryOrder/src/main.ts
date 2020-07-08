@@ -24,8 +24,8 @@ app.get('/', async (_, res, __) => // _ = next
   catch (exception)
   {
     process.stderr.write(`[QueryOrder] ERROR for statsOrderDbUrl ${statsOrderDbUrl}: ${exception}\n`);
+    res.sendStatus(500);
   }
-  res.send();
 });
 
 //const hostname: string = process.env.HOST_ADDR || "0.0.0.0";

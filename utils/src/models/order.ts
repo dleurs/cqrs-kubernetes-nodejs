@@ -43,7 +43,7 @@ export enum Product
     pear   // 1
 }
 
-function productToString(product: Product): string
+export function productToString(product: Product): string
 {
     if (product == Product.apple)
     {
@@ -55,9 +55,9 @@ function productToString(product: Product): string
     }
 }
 
-function stringToProduct(productStr: string): Product
+export function stringToProduct(productStr: string): Product
 {
-    if (productStr == "apple")
+    if (productStr == "apple" || productStr == "0")
     {
         return Product.apple;
     }

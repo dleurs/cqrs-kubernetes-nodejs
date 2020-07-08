@@ -25,6 +25,7 @@ app.put('/', async (_, res, __) => // _ = next
     for (let i:number = 0; i < orderDbJson.length; i++) {
       let order: Order = Order.fromJson(orderDbJson[i]);
       totalOrdered.addOrder(order);
+      console.log(totalOrdered);
     }
     console.log(`[ProcessData] Total ordered :`, totalOrdered);
     try
