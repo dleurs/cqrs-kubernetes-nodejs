@@ -1,5 +1,5 @@
-import { Order, Product } from "./order-class";
-import { TotalOrdered } from "./total-ordered-class";
+import { Order, Product } from "./models/order";
+import { TotalOrdered } from "./models/total-ordered";
 
 let newOrder: Order = new Order({product: Product.pear, unitPrice: 0.5, quantity: 20});
 console.log(newOrder);

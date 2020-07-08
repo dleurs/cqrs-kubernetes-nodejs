@@ -11,7 +11,7 @@ commandOrderRoutes.post('/', async (req, res, _) =>
   try
   {
     console.log(`[Dispatcher] Request received`);
-    console.log(`[Dispatcher] Body :`, req.body);
+    console.log(`[Dispatcher] Request body :`, req.body);
     let response: AxiosResponse = await axios.post(commandOrderUrl, querystring.encode(req.body)); // req.body == "msg": "John"
     if (response.status == 202)
     {

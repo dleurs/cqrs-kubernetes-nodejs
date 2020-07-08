@@ -1,26 +1,26 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { initApplePearTotalOrderedData } from '../../utils/src/functions';
+import { TotalOrdered } from '../../utils/src/models/total-ordered';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
-let totalOrderedData = initApplePearTotalOrderedData()[2];
+let totalOrdered: TotalOrdered = new TotalOrdered({});
 
 app.put('/', (req, res, _) => // _ = next
 {
-  let data = req.body;
-  // checking data
+  console.log(`[StatsOrderDb] PUT Request received`);
+  console.log(`[StatsOrderDb] Request body`, req.body);
+  totalOrdered = TotalOrdered.fromJson(req.body);
   res.sendStatus(202);
-  console.log(data.appleQuantity);
-  totalOrderedData = initApplePearTotalOrderedData(data.appleQuantity, data.appleTotalPrice, data.pearQuantity, data.pearTotalPrice)[2];
-  console.log("totalOrderedData");
-  console.log(totalOrderedData);
+  console.log(`[StatsOrderDb] update on totalOrdered`);
+  console.log(totalOrdered);
 });
 
 app.get('/', (_, res, __) => // _ = next
 {
-  res.send({totalOrderedDataToObject(totalOrderedData)}); 
+  console.log(`[StatsOrderDb] GET Request received`);
+  res.send(totalOrdered.toJson()); 
 });
 
 //const hostname: string = process.env.HOST_ADDR || "0.0.0.0";
@@ -28,7 +28,6 @@ const port: string = process.env.PORT || "8085";
 const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
-  console.log(`Server running at http://localhost:${port}/ in ${nodeEnv}`);
-  console.log(`emptyTotalOrderedData`);
-  console.log(totalOrderedData);
+  console.log(`[StatsOrderDb] Server running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(totalOrdered);
 });

@@ -23,7 +23,7 @@ app.get('/', async (_, res, ___) => // _ ,__, ___ = req, res, next
       <option value="pear">Pear</option>
     </select><br/>
     <label for="quantity-select">Quantity:</label> <input id="quantity-select" name="quantity" type="number" min="1" step="1"/><br/>
-    <label for="price-select">Unit price:</label> <input id="price-select" name="price" type="number" min="0" step="any"/><br/>
+    <label for="price-select">Unit price:</label> <input id="price-select" name="unitPrice" type="number" min="0" step="any"/><br/>
     <button type="submit">Add an order</button>
   </form>`;
   res.send(title + addTodoForm);
@@ -33,7 +33,7 @@ const port: string = process.env.PORT || "8080";
 const nodeEnv: string = process.env.NODE_ENV || "development";
 app.listen(parseInt(port), function () 
 {
-  console.log(`Dispatcher running at http://localhost:${port}/ in ${nodeEnv}`);
-  console.log(`Dispatcher variable = commandOrderUrl : ${commandOrderUrl}`);
-  console.log(`Dispatcher variable = queryOrderUrl : ${queryOrderUrl}`);
+  console.log(`[Dispatcher] Server running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(`[Dispatcher] variable set > commandOrderUrl : ${commandOrderUrl}`);
+  console.log(`[Dispatcher] variable set > queryOrderUrl : ${queryOrderUrl}`);
 });

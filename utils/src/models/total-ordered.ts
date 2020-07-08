@@ -1,3 +1,5 @@
+import { Order, Product } from "./order";
+
 export class TotalOrdered {
     quantityApple: number;
     totalPriceApple: number;
@@ -14,10 +16,10 @@ export class TotalOrdered {
     static fromJson(json: any): TotalOrdered
     {
         let totalOrdered: TotalOrderedArgs = {
-          quantityApple: json.quantityApple,
-          totalPriceApple: json.totalPriceApple,
-          quantityPear: json.quantityPear,
-          totalPricePear: json.totalPricePear 
+          quantityApple: parseFloat(json.quantityApple),
+          totalPriceApple: parseFloat(json.totalPriceApple),
+          quantityPear: parseFloat(json.quantityPear),
+          totalPricePear: parseFloat(json.totalPricePear)
         };
         return new TotalOrdered(totalOrdered);
     }
@@ -30,6 +32,17 @@ export class TotalOrdered {
         json.quantityPear = this.quantityPear;
         json.totalPricePear = this.totalPricePear;
         return json;
+    }
+
+    addOrder(order: Order): void {
+      if (order.product == Product.apple) {
+        this.quantityApple += order.quantity;
+        this.totalPriceApple += (order.unitPrice * order.quantity);
+      }
+      else if (order.product == Product.pear) {
+        this.quantityPear += order.quantity;
+        this.totalPricePear += (order.unitPrice * order.quantity);
+      }
     }
   }
   

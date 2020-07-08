@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import querystring from 'querystring';
 import axios, { AxiosResponse } from 'axios';
+import { Order } from '../../utils/src/models/order';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -11,11 +12,13 @@ const processDataUrl: string = process.env.PROCESSDATAURL || "http://localhost:8
 
 app.post('/', async (req, res, __) => // _ = next
 {
-  console.log(`Request received`);
-  console.log(`Body :`, req.body);
+  console.log(`[CommandOrder] Request received`);
+  console.log(`[CommandOrder] Request body :`, req.body);
+
   try
   {
-    // validating req.body
+    let newOrder: Order = Order.fromJson(req.body);
+    console.log(`[CommandOrder] New order :`, newOrder.toJson());
     res.sendStatus(202);
     let responseOrderDb: AxiosResponse = await axios.post(orderDbUrl, querystring.encode(req.body));
     if (responseOrderDb.status == 201)
@@ -26,7 +29,7 @@ app.post('/', async (req, res, __) => // _ = next
       }
       catch (exception)
       {
-        process.stderr.write(`ERROR in CommandOrder for processDataUrl ${processDataUrl}: ${exception}\n`);
+        process.stderr.write(`[CommandOrder] ERROR in CommandOrder for processDataUrl ${processDataUrl}: ${exception}\n`);
       }
     }
     else
@@ -35,7 +38,8 @@ app.post('/', async (req, res, __) => // _ = next
     }
   } catch (exception)
   {
-    process.stderr.write(`ERROR in CommandOrder for orderDbUrl ${orderDbUrl}: ${exception}\n`);
+    process.stderr.write(`[CommandOrder] ERROR in CommandOrder for orderDbUrl ${orderDbUrl}: ${exception}\n`);
+    res.sendStatus(500);
   }
 });
 
@@ -44,7 +48,7 @@ const nodeEnv: string = process.env.NODE_ENV || "development";
 
 app.listen(parseInt(port), function () 
 {
-  console.log(`CommandOrder running at http://localhost:${port}/ in ${nodeEnv}`);
-  console.log(`CommandOrder variable = orderDbUrl : ${orderDbUrl}`);
-  console.log(`CommandOrder variable = processDataUrl : ${processDataUrl}`);
+  console.log(`[CommandOrder] Server running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(`[CommandOrder] variable set, orderDbUrl : ${orderDbUrl}`);
+  console.log(`[CommandOrder] variable set, processDataUrl : ${processDataUrl}`);
 });

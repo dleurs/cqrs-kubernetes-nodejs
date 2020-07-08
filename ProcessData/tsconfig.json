@@ -11,7 +11,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*", "../utils"
+        "src/**/*", "../utils", "../basic-nodejs-app/src/test.ts", "../basic-nodejs-app/src/functions.ts", "../basic-nodejs-app/src/total-ordered-class.ts", "../basic-nodejs-app/src/order-class.ts"
     ],
     "exclude": [
         "node_modules",

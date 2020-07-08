@@ -13,9 +13,9 @@ export class Order
     static fromJson(json: any): Order
     {
         let orderArgs: OrderArgs = {
-            product: stringToProduct(json.product.toString()),
-            unitPrice: json.unitPrice,
-            quantity: json.quantity,
+            product: stringToProduct(json.product),
+            unitPrice: parseFloat(json.unitPrice),
+            quantity: parseFloat(json.quantity),
         };
         return new Order(orderArgs);
     }
@@ -39,8 +39,8 @@ export class OrderArgs
 
 export enum Product
 {
-    apple,
-    pear
+    apple, // 0
+    pear   // 1
 }
 
 function productToString(product: Product): string
