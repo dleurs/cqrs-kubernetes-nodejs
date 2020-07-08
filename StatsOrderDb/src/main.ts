@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { initApplePearTotalOrderedData } from '../../utils/functions';
+import { initApplePearTotalOrderedData } from '../../utils/src/functions';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -20,7 +20,7 @@ app.put('/', (req, res, _) => // _ = next
 
 app.get('/', (_, res, __) => // _ = next
 {
-  res.send({totalOrderedData}); 
+  res.send({totalOrderedDataToObject(totalOrderedData)}); 
 });
 
 //const hostname: string = process.env.HOST_ADDR || "0.0.0.0";

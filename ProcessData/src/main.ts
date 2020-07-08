@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import axios, { AxiosResponse } from 'axios';
 import querystring from 'querystring';
-import { fillTotalOrderedData, totalOrderedDataToObject } from '../../utils/functions';
+import { fillTotalOrderedData, totalOrderedDataToObject } from '../../utils/src/functions';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({ extended: false }));

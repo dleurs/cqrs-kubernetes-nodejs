@@ -11,6 +11,8 @@ const appleTotalPrice: string = "appleTotalPrice";
 const pearQuantityStr = "pearQuantity";
 const pearTotalPriceStr = "pearTotalPrice";*/
 
+
+
 export function initApplePearTotalOrderedData(appleQuantity?: number, appleTotalPrice?: number, pearQuantity?: number, pearTotalPrice?: number): any
 {
   let totalOrderedData: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
