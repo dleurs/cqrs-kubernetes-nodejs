@@ -13,7 +13,7 @@ const statsOrderDbUrl: string = process.env.STATSORDERDBURL || "http://localhost
 
 app.put('/', async (_, res, __) => // _ = next
 {
-  console.log(`[ProcessData] Request received`);
+  console.log(`[ProcessData] PUT on "/" Request received`);
   res.sendStatus(202);
   try
   {

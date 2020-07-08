@@ -12,7 +12,7 @@ const processDataUrl: string = process.env.PROCESSDATAURL || "http://localhost:8
 
 app.post('/', async (req, res, __) => // _ = next
 {
-  console.log(`[CommandOrder] Request received`);
+  console.log(`[CommandOrder] POST on "/" Request received`);
   console.log(`[CommandOrder] Request body :`, req.body);
 
   try
@@ -29,7 +29,7 @@ app.post('/', async (req, res, __) => // _ = next
       }
       catch (exception)
       {
-        process.stderr.write(`[CommandOrder] ERROR in CommandOrder for processDataUrl ${processDataUrl}: ${exception}\n`);
+        process.stderr.write(`[CommandOrder] ERROR for processDataUrl ${processDataUrl}: ${exception}\n`);
       }
     }
     else
@@ -38,7 +38,7 @@ app.post('/', async (req, res, __) => // _ = next
     }
   } catch (exception)
   {
-    process.stderr.write(`[CommandOrder] ERROR in CommandOrder for orderDbUrl ${orderDbUrl}: ${exception}\n`);
+    process.stderr.write(`[CommandOrder] ERROR for orderDbUrl ${orderDbUrl}: ${exception}\n`);
     res.sendStatus(500);
   }
 });

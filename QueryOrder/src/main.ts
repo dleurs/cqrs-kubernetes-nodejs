@@ -10,7 +10,7 @@ const statsOrderDbUrl: string = process.env.STATSORDERDBURL || "http://localhost
 
 app.get('/', async (_, res, __) => // _ = next
 {
-  console.log(`[QueryOrder] GET Request received`);
+  console.log(`[QueryOrder] GET on "/" Request received`);
   try
   {
     let responseStatsOrderDbUrl: AxiosResponse = await axios.get(statsOrderDbUrl);

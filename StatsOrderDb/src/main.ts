@@ -9,7 +9,7 @@ let totalOrdered: TotalOrdered = new TotalOrdered({});
 
 app.put('/', (req, res, _) => // _ = next
 {
-  console.log(`[StatsOrderDb] PUT Request received`);
+  console.log(`[StatsOrderDb] PUT on "/" Request received`);
   console.log(`[StatsOrderDb] Request body`, req.body);
   totalOrdered = TotalOrdered.fromJson(req.body);
   res.sendStatus(202);

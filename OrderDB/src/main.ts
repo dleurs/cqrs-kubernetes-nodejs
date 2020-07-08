@@ -10,7 +10,7 @@ let orderDb: Array<Order> = Array<Order>();
 
 app.post('/', (req, res, _) => // _ = next
 {
-  console.log(`[OrderDB] POST Request received`);
+  console.log(`[OrderDB] POST on "/" Request received`);
   console.log(`[OrderDB] Request body :`, req.body);
   let newOrder: Order = Order.fromJson(req.body);
   console.log(`[OrderDB] New order :`, newOrder.toJson());
@@ -22,7 +22,7 @@ app.post('/', (req, res, _) => // _ = next
 
 app.get('/', (_, res, __) => // _ = next
 {
-  console.log(`[OrderDB] GET Request received`);
+  console.log(`[OrderDB] GET on "/" Request received`);
   console.log(`[OrderDB] orderDb : `, orderDb);
   res.send({"orderDb": orderDb});
 });
