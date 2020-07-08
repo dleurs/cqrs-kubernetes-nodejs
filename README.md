@@ -1,7 +1,7 @@
 # Simple CQRS example in Kubernetes with Nodejs / TypeScript
 
 ## What is this project ?
-In this project, I try to build a simple app following <strong>CQRS architecture</strong>. I created a simple ordering platform. You can make orders to buy some apple and pear. The merchant will be able to see the total number and price of product sold.
+In this project, I try to build a simple app following <strong>CQRS architecture</strong>. I created a simple ordering platform. You can make orders to buy some apples and pears. The merchant will be able to see the total number and price of product ordered. For simplicity, here the two databases are just NodeJS app.
 ![Project architecture](/assets/CQRS.png)
 
 ![Gif demo of this app](/assets/testing-this-project.gif)
