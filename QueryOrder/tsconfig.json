@@ -11,7 +11,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*", "../utils", "../QueryOrder/src/test.ts", "../QueryOrder/src/functions.ts", "../QueryOrder/src/total-ordered-class.ts", "../QueryOrder/src/order-class.ts"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",

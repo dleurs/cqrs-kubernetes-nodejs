@@ -18,9 +18,9 @@ app.put('/', async (_, res, __) => // _ = next
   try
   {
     let responseOrderDbUrl: AxiosResponse = await axios.get(orderDbUrl);
-    console.log(`[ProcessData] responseOrderDbUrl`);
     let orderDbJson: any = responseOrderDbUrl.data.orderDb;
-    console.log(responseOrderDbUrl.data.orderDb);
+    console.log(`[ProcessData] responseOrderDbUrl`);
+    console.log(orderDbJson);
     let totalOrdered: TotalOrdered = new TotalOrdered({});
     for (let i:number = 0; i < orderDbJson.length; i++) {
       let order: Order = Order.fromJson(orderDbJson[i]);
