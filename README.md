@@ -2,7 +2,7 @@
 
 ## What is CQRS ?
 
-CQRS is about separating the reading part (Query, or GET) for the writing part (Command, or POST DELETE PUT).
+CQRS is about separating the read and write, thought having two separate databases.
 - The action of reading the database is called <strong>a query</strong>, equivalent in HTTP of a <strong>GET</strong> Request
 - The action of writing the database is called <strong>a command</strong>, equivalent in HTTP of a <strong>POST, PUT, DELETE and PATCH</strong>
 
@@ -14,6 +14,7 @@ More info on CQRS :
 - Clear explaination of CQRS : https://community.risingstack.com/when-to-use-cqrs/
 - Nice schemas : https://martinfowler.com/bliki/CQRS.html
 ## What is this example about ?
+In this project, I created a simple ordering platform. You can make orders to buy some apple and pear. The merchant will be able to see the total number and price of product sold.
 ![Project architecture](/assets/CQRS.png)
 
 ![Gif demo of this app](/assets/testing-this-project.gif)
