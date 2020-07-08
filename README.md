@@ -15,7 +15,7 @@ More info on CQRS :
 - Nice schemas : https://martinfowler.com/bliki/CQRS.html
 ## What is this example about ?
 <img src="/assets/CQRS.png">
-
+### Demo of the app in local (no Kubernetes)
 ![Gif demo of this app](/assets/testing-this-project.gif)
 
 Event Sourcing is not implemented in this project. Event Sourcing is commonly found with CQRS architectures. 
