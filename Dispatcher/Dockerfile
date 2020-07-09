@@ -1,16 +1,14 @@
 FROM node:12
 
-# ARG DOCKER_NODE_ENV="development"
+# ARG DOCKER_NODE_ENV="production"
 # ENV NODE_ENV=${DOCKER_NODE_ENV}
-# ARG DOCKER_HOST_ADDR="0.0.0.0"
-# ENV HOST_ADDR=${DOCKER_HOST}
-# ARG DOCKER_PORT=8080
-# ENV PORT=${DOCKER_PORT}
 
-WORKDIR /usr/src
-COPY package*.json ./
+
+WORKDIR /usr/cqrs-kubernetes-nodejs/Dispatcher
+COPY ./package*.json ./
 RUN npm install
 COPY . .
+RUN mv utils ..
 
-EXPOSE ${DOCKER_PORT}
+EXPOSE ${PORT}
 CMD [ "npm", "start" ]

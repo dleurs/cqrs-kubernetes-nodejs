@@ -12,5 +12,5 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-EXPOSE ${DOCKER_PORT}
+EXPOSE ${PORT}
 CMD [ "npm", "start" ]

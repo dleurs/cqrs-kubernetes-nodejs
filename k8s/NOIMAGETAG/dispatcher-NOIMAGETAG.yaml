@@ -2,29 +2,31 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cqrs-k8s-serviceInterface
-  name: cqrs-k8s-serviceInterface
+    app: cqrs-dispatcher
+  name: cqrs-dispatcher
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cqrs-k8s-serviceInterface
+      app: cqrs-dispatcher
   strategy: {}
   template:
     metadata:
       labels:
-        app: cqrs-k8s-serviceInterface
+        app: cqrs-dispatcher
     spec:
       containers:
-      - image: dleurs/cqrs-k8s-serviceInterface:1.0.0
-        name: cqrs-k8s-serviceInterface
+      - image: dleurs/cqrs-dispatcher:IMAGETAG
+        name: cqrs-dispatcher
         ports:
         - containerPort: 8080
         env:
           - name: PORT
             value: "8080"
-          - name: QUERYURL
-            value: "http://cqrs-k8s-query-svc.default.svc.cluster.local"
+          - name: COMMANDORDERURL
+            value: "http://cqrs-command-order.default.svc.cluster.local"
+          - name: QUERYORDERBURL
+            value: "http://cqrs-query-order.default.svc.cluster.local"
         resources: {}
 status: {}
 ---
@@ -32,8 +34,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: cqrs-k8s-serviceInterface
-  name: cqrs-k8s-serviceInterface-svc
+    app: cqrs-dispatcher
+  name: cqrs-dispatcher-svc
 spec:
   ports:
   - port: 80
@@ -41,7 +43,7 @@ spec:
     targetPort: 8080
     name: http
   selector:
-    app: cqrs-k8s-serviceInterface
+    app: cqrs-dispatcher
   type: LoadBalancer
 status:
   loadBalancer: {}
