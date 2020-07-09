@@ -42,7 +42,7 @@ service/kubernetes                ClusterIP      10.3.0.1       <none>          
 
 CQRS is about <strong>separating reads and writes</strong>, thought having two separate databases.
 - The action of reading the database is called <strong>a query</strong>, equivalent in HTTP of a <strong>GET</strong> Request
-- The action of writing the database is called <strong>a command</strong>, equivalent in HTTP of a <strong>POST, PUT, DELETE and PATCH</strong>
+- The action of writing the database is called <strong>a command</strong>, equivalent in HTTP of a <strong>POST, PUT and DELETE</strong>
 
 
 CQRS is suitable for systems in which <strong>the number of writing and reading accesses differs greatly</strong>. With CQRS, read and write will <strong>scale independently</strong>. However, it adds a lot of complexity, and your data will be "eventual consistent" : the synchronisation between your read and write databases may extend the time to see the result of a write. 
@@ -58,5 +58,4 @@ Event Sourcing is not implemented in this project. Event Sourcing is commonly fo
 https://github.com/dleurs/learn_nodejs_ts
 
 ## Other
-Soft links are used in order for the utils/ to be present in all NodeJs app, and to be able to build docker image
-
+build-docker-k8s.sh script is a bit tricky. I will try to look for cleaner solutions, maybe Tekton
