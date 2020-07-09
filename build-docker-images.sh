@@ -3,7 +3,12 @@ if [ "$#" -ne 2 ]; then
 elif [ $2 = "all" ]; then
     echo "Building all images with tag $1"
 else
-    echo "Building a single image, $2 $1"
+    echo "Building a single image"
+    createImageAndK8s $1 $2
+fi
+
+createImageAndK8s (imageTag, imageName) {
+    echo "Building image, $2 $1"
     cp -a utils $2/
     cd $2
     docker build . -t dleurs/cqrs-$2:$1
@@ -11,4 +16,6 @@ else
     /bin/rm -rf utils
     cd ../k8s
     sed "s/IMAGETAG/$1/g" NOIMAGETAG/$2-NOIMAGETAG.yaml > $2.yaml #sed `s/NOIMAGETAB/$1/g` dispatcher.yaml 
-fi
+    kubeclt delete -f $2.yaml
+    kubeclt create -f $2.yaml
+}
