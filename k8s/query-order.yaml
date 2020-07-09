@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cqrs-query-order
+  name: cqrs-query-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cqrs-query-order
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cqrs-query-order
+    spec:
+      containers:
+      - image: dleurs/cqrs-query-order:0.0.5
+        name: cqrs-query-order
+        ports:
+        - containerPort: 8084
+        env:
+          - name: PORT
+            value: "8084"
+          - name: STATSORDERDBURL
+            value: "http://cqrs-stats-order-db-svc.default.svc.cluster.local"
+          #- name: NODE_ENV
+          #  value: "production"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cqrs-query-order
+  name: cqrs-query-order-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8084
+    name: http
+  selector:
+    app: cqrs-query-order
+  type: ClusterIP
+status:
+  loadBalancer: {}

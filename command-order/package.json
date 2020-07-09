@@ -7,7 +7,7 @@
         "build": "tsc",
         "clean": "/bin/rm -rf ./build",
         "prestart": "npm run clean; npm run build",
-        "start": "node ./build/CommandOrder/src/main.js",
+        "start": "node ./build/command-order/src/main.js",
         "dev": "nodemon --inspect src/main.ts"
     },
     "author": "",

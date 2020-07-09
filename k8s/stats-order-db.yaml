@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cqrs-stats-order-db
+  name: cqrs-stats-order-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cqrs-stats-order-db
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cqrs-stats-order-db
+    spec:
+      containers:
+      - image: dleurs/cqrs-stats-order-db:0.0.4
+        name: cqrs-stats-order-db
+        ports:
+        - containerPort: 8085
+        env:
+          - name: PORT
+            value: "8085"
+          #- name: NODE_ENV
+          #  value: "production"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cqrs-stats-order-db
+  name: cqrs-stats-order-db-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8085
+    name: http
+  selector:
+    app: cqrs-stats-order-db
+  type: ClusterIP
+status:
+  loadBalancer: {}

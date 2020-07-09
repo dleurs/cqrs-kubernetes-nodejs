@@ -16,17 +16,19 @@ spec:
         app: cqrs-dispatcher
     spec:
       containers:
-      - image: dleurs/cqrs-dispatcher:0.0.2
+      - image: dleurs/cqrs-dispatcher:0.0.4
         name: cqrs-dispatcher
         ports:
         - containerPort: 8080
         env:
           - name: PORT
             value: "8080"
+          #- name: NODE_ENV
+          #  value: "production"
           - name: COMMANDORDERURL
-            value: "http://cqrs-command-order.default.svc.cluster.local"
+            value: "http://cqrs-command-order-svc.default.svc.cluster.local"
           - name: QUERYORDERBURL
-            value: "http://cqrs-query-order.default.svc.cluster.local"
+            value: "http://cqrs-query-order-svc.default.svc.cluster.local"
         resources: {}
 status: {}
 ---

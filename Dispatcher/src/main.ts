@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 export const commandOrderUrl: string = process.env.COMMANDORDERURL || "http://localhost:8081"
 export const queryOrderUrl: string = process.env.QUERYORDERBURL || "http://localhost:8084"
 
+app.get('/', (_, res, ___) => {
+  res.redirect('/order')
+});
 app.use('/order', commandOrderRoutes);
 
 const port: string = process.env.PORT || "8080";

@@ -16,7 +16,7 @@ spec:
         app: cqrs-command-order
     spec:
       containers:
-      - image: dleurs/cqrs-command-order:IMAGETAG
+      - image: dleurs/cqrs-command-order:0.0.3
         name: cqrs-command-order
         ports:
         - containerPort: 8081

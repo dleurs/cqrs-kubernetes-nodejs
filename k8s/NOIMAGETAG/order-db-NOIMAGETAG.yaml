@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cqrs-order-db
+  name: cqrs-order-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cqrs-order-db
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cqrs-order-db
+    spec:
+      containers:
+      - image: dleurs/cqrs-order-db:IMAGETAG
+        name: cqrs-order-db
+        ports:
+        - containerPort: 8082
+        env:
+          - name: PORT
+            value: "8082"
+          #- name: NODE_ENV
+          #  value: "production"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cqrs-order-db
+  name: cqrs-order-db-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8082
+    name: http
+  selector:
+    app: cqrs-order-db
+  type: ClusterIP
+status:
+  loadBalancer: {}

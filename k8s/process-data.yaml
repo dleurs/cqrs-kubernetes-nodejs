@@ -2,33 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cqrs-command-order
-  name: cqrs-command-order
+    app: cqrs-process-data
+  name: cqrs-process-data
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cqrs-command-order
+      app: cqrs-process-data
   strategy: {}
   template:
     metadata:
       labels:
-        app: cqrs-command-order
+        app: cqrs-process-data
     spec:
       containers:
-      - image: dleurs/cqrs-command-order:IMAGETAG
-        name: cqrs-command-order
+      - image: dleurs/cqrs-process-data:0.0.4
+        name: cqrs-process-data
         ports:
-        - containerPort: 8081
+        - containerPort: 8083
         env:
           - name: PORT
-            value: "8081"
+            value: "8083"
           #- name: NODE_ENV
           #  value: "production"
+          - name: STATSORDERDBURL
+            value: "http://cqrs-stats-order-db-svc.default.svc.cluster.local"
           - name: ORDERDBURL
             value: "http://cqrs-order-db-svc.default.svc.cluster.local"
-          - name: PROCESSDATAURL
-            value: "http://cqrs-process-data-svc.default.svc.cluster.local"
         resources: {}
 status: {}
 ---
@@ -36,16 +36,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: cqrs-command-order
-  name: cqrs-command-order-svc
+    app: cqrs-process-data
+  name: cqrs-process-data-svc
 spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8081
+    targetPort: 8083
     name: http
   selector:
-    app: cqrs-command-order
+    app: cqrs-process-data
   type: ClusterIP
 status:
   loadBalancer: {}
