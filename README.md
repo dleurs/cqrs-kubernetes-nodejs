@@ -59,3 +59,14 @@ https://github.com/dleurs/learn_nodejs_ts
 
 ## Other
 build-docker-k8s.sh script is a bit tricky. I will try to look for cleaner solutions, maybe Tekton
+
+```bash
+kubectl top pod
+NAME                                   CPU(cores)   MEMORY(bytes)   
+cqrs-command-order-8586cc964b-qwwxr    0m           23Mi            
+cqrs-dispatcher-544cd494fd-t4xfh       0m           24Mi            
+cqrs-order-db-b4fb7c758-7x2k2          0m           22Mi            
+cqrs-process-data-b988f897d-hf6j7      0m           23Mi            
+cqrs-query-order-657b9f87d-jqh7j       0m           23Mi            
+cqrs-stats-order-db-74768cbd54-8t9l9   0m           22Mi
+```
