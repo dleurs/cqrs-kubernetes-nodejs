@@ -29,7 +29,13 @@ spec:
             value: "http://cqrs-order-db-svc.default.svc.cluster.local"
           - name: PROCESSDATAURL
             value: "http://cqrs-process-data-svc.default.svc.cluster.local"
-        resources: {}
+        resources: 
+          requests:
+            memory: "50Mi"
+            cpu: "0.05"
+          limits:
+            memory: "100Mi"
+            cpu: "0.1"
 status: {}
 ---
 apiVersion: v1
