@@ -16,7 +16,7 @@ spec:
         app: cqrs-process-data
     spec:
       containers:
-      - image: dleurs/cqrs-process-data:0.0.4
+      - image: dleurs/cqrs-process-data:1.0.0
         name: cqrs-process-data
         ports:
         - containerPort: 8083

@@ -16,7 +16,7 @@ spec:
         app: cqrs-query-order
     spec:
       containers:
-      - image: dleurs/cqrs-query-order:0.0.5
+      - image: dleurs/cqrs-query-order:1.0.0
         name: cqrs-query-order
         ports:
         - containerPort: 8084

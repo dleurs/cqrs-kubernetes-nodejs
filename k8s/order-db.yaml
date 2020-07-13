@@ -16,7 +16,7 @@ spec:
         app: cqrs-order-db
     spec:
       containers:
-      - image: dleurs/cqrs-order-db:0.0.0
+      - image: dleurs/cqrs-order-db:1.0.0
         name: cqrs-order-db
         ports:
         - containerPort: 8082
