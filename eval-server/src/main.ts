@@ -4,18 +4,18 @@ import bodyParser from 'body-parser';
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
-function myFunction(): void {
+let myFunction = function(): void {
   console.log('myFunction not initialised')
 }
 app.post('/', (req, res, _) => // _ = next
 {
   console.log(req.body);
   console.log('Before eval') // Before eval
-  myFunction(); // myFunction not initialised
-  eval(req.body.code); // myFunction initialised; myFunction is initialised !
-  res.send('Code executed');
+  myFunction; // myFunction not initialised
+  eval("myFunction="+req.body.code); // myFunction initialised; myFunction is initialised !
+  res.sendStatus(200);
   console.log('After eval'); // After eval
-  myFunction(); // myFunction not initialised
+  myFunction; // myFunction not initialised
 });
 
 app.get('/', (_, res, __) => // _ = next

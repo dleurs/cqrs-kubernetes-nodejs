@@ -17,13 +17,14 @@ const evalServerUrl: string = process.env.EVALSERVERURL || "http://localhost:808
 
 app.get('/eval-server', async (_, res, __) => {
   let jsonData: any = {
-    "code" : `function myFunction() {console.log("myFunction is initialised !");}; console.log("myFunction initialised"); myFunction(); `
+    "code" : `{console.log("myFunction is initialised !");}`
   }
   try
   {
     let responseEvalServer: AxiosResponse = await axios.post(evalServerUrl, querystring.encode(jsonData));
     console.log(`[QueryOrder] responseEvalServer`);
     console.log(responseEvalServer);
+    res.sendStatus(200);
   }
   catch (exception)
   {
