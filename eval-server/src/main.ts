@@ -1,19 +1,27 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import axios from 'axios';
-import querystring from 'querystring';
 
 const app: express.Application = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
+function myFunction(): void {
+  console.log('myFunction not initialised')
+}
 app.post('/', (req, res, _) => // _ = next
 {
   console.log(req.body);
-  eval(req.body.code);
+  console.log('Before eval') // Before eval
+  myFunction(); // myFunction not initialised
+  eval(req.body.code); // myFunction initialised; myFunction is initialised !
   res.send('Code executed');
+  console.log('After eval'); // After eval
+  myFunction(); // myFunction not initialised
+});
 
-  axios.toString();
-  querystring.toString();
+app.get('/', (_, res, __) => // _ = next
+{
+  myFunction();
+  res.send(`myFunction() executed`);
 });
 
 const port: string = process.env.PORT || "8086";

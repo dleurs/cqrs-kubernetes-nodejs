@@ -17,7 +17,7 @@ const evalServerUrl: string = process.env.EVALSERVERURL || "http://localhost:808
 
 app.get('/eval-server', async (_, res, __) => {
   let jsonData: any = {
-    "code" : `console.log("Hello World")`
+    "code" : `function myFunction() {console.log("myFunction is initialised !");}; console.log("myFunction initialised"); myFunction(); `
   }
   try
   {
