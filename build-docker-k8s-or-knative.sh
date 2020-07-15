@@ -1,4 +1,4 @@
-createImageAndK8s () {
+createImage () {
     echo "Building image $3/cqrs-$2:$1"
     cp -a utils $2/
     cd $2
@@ -7,11 +7,14 @@ createImageAndK8s () {
     /bin/rm -rf utils
     cd ../k8s
     sed "s/IMAGETAG/$1/g" NOIMAGETAG/$2-NOIMAGETAG.yaml > $2.yaml #sed `s/NOIMAGETAB/$1/g` dispatcher.yaml 
-    #kubectl delete -f $2.yaml
+    # TODO: Knative NOIMAGE to IMAGE
+}
+
+createK8s () {
     kubectl create -f $2.yaml
-    cd ..
     kubectl replace -f $2.yaml
 }
+
 services=(
     "dispatcher"
     "command-order"
@@ -22,7 +25,7 @@ services=(
 )
 
 # kubectl create
-if [ "$#" -eq 1 ] && [ $1 == "run-k8s" ]; then
+if [ "$#" -eq 1 ] && [ $1 == "create-k8s" ]; then
     for i in "${services[@]}"; do
         kubectl create -f k8s/"$i".yaml
     done
@@ -36,6 +39,22 @@ elif [ "$#" -eq 1 ] && [ $1 == "delete-k8s" ]; then
     for i in "${services[@]}"; do
         kubectl delete -f k8s/"$i".yaml
     done
+
+# knative create
+elif [ "$#" -eq 1 ] && [ $1 == "create-knative" ]; then
+    for i in "${services[@]}"; do
+        kubectl create -f knative/"$i".yaml
+    done
+# knative replace
+elif [ "$#" -eq 1 ] && [ $1 == "replace-knative" ]; then
+    for i in "${services[@]}"; do
+        kubectl replace -f knative/"$i".yaml
+    done
+# knative delete
+elif [ "$#" -eq 1 ] && [ $1 == "delete-knative" ]; then
+    for i in "${services[@]}"; do
+        kubectl delete -f knative/"$i".yaml
+    done
 # docker build and kubernetes create
 elif [ "$#" -ne 3 ]; then
     echo "[Arguments missing] image tags and service name required, like ./build-docker-k8s.sh 1.0.0 dispatcher pseudo-docker or ./build-docker-k8s.sh 1.0.0 all pseudo-docker. If you just want to create k8s services, ./build-docker-k8s.sh (run-k8s | delete-k8s)"
@@ -46,6 +65,6 @@ elif [ $2 = "all" ]; then
     done
 else
     echo "Building a single image with tag $1 hosted with docker pseudo $3"
-    createImageAndK8s $1 $2 $3
+    createImage $1 $2 $3
 fi
 

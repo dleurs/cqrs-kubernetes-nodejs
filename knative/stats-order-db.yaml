@@ -1,8 +1,7 @@
-# Next, curl -H "Host: cqrs-dispatcher.default.example.com" http://6ddrucefok.lb.c1.gra7.k8s.ovh.net/order
 apiVersion: serving.knative.dev/v1 # Current version of Knative
 kind: Service
 metadata:
-  name: cqrs-order-db # The name of the app
+  name: cqrs-stats-order-db # The name of the app
   namespace: default # The namespace the app will use
   labels:
     serving.knative.dev/visibility: cluster-local
@@ -14,4 +13,4 @@ spec:
         autoscaling.knative.dev/maxScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-order-db:1.0.0 # Reference to the image of the app
+        - image: dleurs/cqrs-stats-order-db:1.0.0 # Reference to the image of the app

@@ -1,8 +1,7 @@
-# Next, curl -H "Host: cqrs-dispatcher.default.example.com" http://6ddrucefok.lb.c1.gra7.k8s.ovh.net/order
 apiVersion: serving.knative.dev/v1 # Current version of Knative
 kind: Service
 metadata:
-  name: cqrs-command-order # The name of the app
+  name: cqrs-process-data # The name of the app
   namespace: default # The namespace the app will use
   labels:
     serving.knative.dev/visibility: cluster-local
@@ -13,7 +12,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-command-order:1.0.0 # Reference to the image of the app
+        - image: dleurs/cqrs-process-data:1.0.0 # Reference to the image of the app
           #ports: => reserved in knative
           #- containerPort: 8080
           env:
@@ -23,5 +22,5 @@ spec:
             #  value: "production" => Not working with prod
             - name: ORDERDBURL
               value: "http://cqrs-order-db.default.svc.cluster.local"
-            - name: PROCESSDATAURL
-              value: "http://cqrs-process-data.default.svc.cluster.local"
+            - name: STATSORDERDBURL
+              value: "http://cqrs-stats-order-db.default.svc.cluster.local"
