@@ -2,21 +2,27 @@
 apiVersion: serving.knative.dev/v1 # Current version of Knative
 kind: Service
 metadata:
-  name: cqrs-dispatcher # The name of the app
+  name: cqrs-order-db # The name of the app
   namespace: default # The namespace the app will use
+  labels:
+    serving.knative.dev/visibility: cluster-local
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-dispatcher:1.1.4 # Reference to the image of the app
+        - image: dleurs/cqrs-order-db:1.0.0 # Reference to the image of the app
           #ports: => reserved in knative
           #- containerPort: 8080
-          env:
+          #env:
             #- name: PORT
             #  value: "8080"
             #- name: NODE_ENV
             #  value: "production" => Not working with prod
-            - name: COMMANDORDERURL
-              value: "http://cqrs-command-order.default.svc.cluster.local"
+            #- name: COMMANDORDERURL
+            #  value: "http://cqrs-command-order.default.svc.cluster.local"
             #- name: QUERYORDERBURL
             #  value: "http://cqrs-query-order-svc.default.svc.cluster.local"
