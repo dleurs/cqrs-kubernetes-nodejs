@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "ES2020",
         "module": "commonjs",
         "outDir": "./build",
         "strict": true,
@@ -11,7 +11,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*", "../utils", "../query-order/src/test.ts", "../query-order/src/functions.ts", "../query-order/src/total-ordered-class.ts", "../query-order/src/order-class.ts"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",

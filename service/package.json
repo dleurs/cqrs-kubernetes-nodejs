@@ -7,7 +7,7 @@
         "build": "tsc",
         "clean": "/bin/rm -rf ./build",
         "prestart": "npm run clean; npm run build",
-        "start": "node ./build/process-data/src/main.js",
+        "start": "node ./build/main.js",
         "dev": "nodemon --inspect src/main.ts"
     },
     "author": "",
@@ -15,7 +15,6 @@
     "dependencies": {
         "@types/express": "^4.17.6",
         "@types/node": "^14.0.14",
-        "axios": "^0.19.2",
         "body-parser": "^1.19.0",
         "express": "^4.17.1",
         "typescript": "^3.9.5"
