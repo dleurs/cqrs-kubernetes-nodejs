@@ -14,11 +14,11 @@ app.get('/', (_, res, ___) => {
 });
 app.use('/order', commandOrderRoutes);
 
-const port: string = process.env.PORT || "8080";
+//const port: string = process.env.PORT || "8080";
 const nodeEnv: string = process.env.NODE_ENV || "development";
-app.listen(parseInt(port), function () 
+app.listen(function () 
 {
-  console.log(`[Dispatcher] Server running at http://localhost:${port}/ in ${nodeEnv}`);
+  console.log(`[Dispatcher] Server running in ${nodeEnv}`);
   console.log(`[Dispatcher] variable set > commandOrderUrl : ${commandOrderUrl}`);
   console.log(`[Dispatcher] variable set > queryOrderUrl : ${queryOrderUrl}`);
 });
