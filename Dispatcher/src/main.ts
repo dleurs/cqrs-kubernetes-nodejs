@@ -1,5 +1,5 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import express from '../node_modules/@types/express';
+import bodyParser from '../node_modules/@types/body-parser';
 import { commandOrderRoutes } from './routes/command-order';
 
 
@@ -14,9 +14,9 @@ app.get('/', (_, res, ___) => {
 });
 app.use('/order', commandOrderRoutes);
 
-//const port: string = process.env.PORT || "8080";
+const port: string = process.env.PORT || "8080";
 const nodeEnv: string = process.env.NODE_ENV || "development";
-app.listen(function () 
+app.listen(port, function () 
 {
   console.log(`[Dispatcher] Server running in ${nodeEnv}`);
   console.log(`[Dispatcher] variable set > commandOrderUrl : ${commandOrderUrl}`);

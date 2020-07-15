@@ -7,15 +7,15 @@ spec:
   template:
     spec:
       containers:
-        - image: dleurs/cqrs-dispatcher:1.1.1 # Reference to the image of the app
+        - image: dleurs/cqrs-dispatcher:1.1.2 # Reference to the image of the app
           #ports: => reserved in knative
           #- containerPort: 8080
           env:
             #- name: PORT
             #  value: "8080"
-            #- name: NODE_ENV
-            #  value: "production"
-            - name: COMMANDORDERURL
-              value: "http://cqrs-command-order-svc.default.svc.cluster.local"
-            - name: QUERYORDERBURL
-              value: "http://cqrs-query-order-svc.default.svc.cluster.local"
+            - name: NODE_ENV
+              value: "production"
+            #- name: COMMANDORDERURL
+            #  value: "http://cqrs-command-order-svc.default.svc.cluster.local"
+            #- name: QUERYORDERBURL
+            #  value: "http://cqrs-query-order-svc.default.svc.cluster.local"
