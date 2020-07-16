@@ -16,7 +16,7 @@ spec:
         app: cqrs-dispatcher
     spec:
       containers:
-      - image: dleurs/cqrs-dispatcher:1.1.4
+      - image: dleurs/cqrs-dispatcher:1.1.5
         name: cqrs-dispatcher
         ports:
         - containerPort: 8080

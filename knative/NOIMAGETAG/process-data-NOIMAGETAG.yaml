@@ -1,8 +1,10 @@
 apiVersion: serving.knative.dev/v1 
 kind: Service
 metadata:
-  name: cqrs-dispatcher 
-  namespace: default  
+  name: cqrs-process-data 
+  namespace: default 
+  labels:
+    serving.knative.dev/visibility: cluster-local
 spec:
   template:
     metadata:
@@ -10,7 +12,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-dispatcher:1.1.5
+        - image: dleurs/cqrs-process-data:IMAGETAG
           #resources:
           #  requests:
           #    memory: "100Mi"
@@ -19,9 +21,11 @@ spec:
           #    memory: "200Mi"
           #    cpu: "200m"
           env:
+            #- name: PORT
+            #  value: "8080"
             #- name: NODE_ENV
             #  value: "production" => Not working with prod
-            - name: COMMANDORDERURL
-              value: "http://cqrs-command-order.default.svc.cluster.local"
-            - name: QUERYORDERBURL
-              value: "http://cqrs-query-order.default.svc.cluster.local"
+            - name: ORDERDBURL
+              value: "http://cqrs-order-db.default.svc.cluster.local"
+            - name: STATSORDERDBURL
+              value: "http://cqrs-stats-order-db.default.svc.cluster.local"

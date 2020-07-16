@@ -1,0 +1,31 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cqrs-query-order 
+  namespace: default 
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+        - image: dleurs/cqrs-query-order:IMAGETAG
+          #resources:
+          #  requests:
+          #    memory: "100Mi"
+          #    cpu: "100m"
+          #  limits:
+          #    memory: "200Mi"
+          #    cpu: "200m"
+          env:
+            #- name: PORT
+            #  value: "8080"
+            #- name: NODE_ENV
+            #  value: "production" => Not working with prod
+            #- name: ORDERDBURL
+            #  value: "http://cqrs-order-db.default.svc.cluster.local"
+            - name: STATSORDERDBURL
+              value: "http://cqrs-stats-order-db.default.svc.cluster.local"

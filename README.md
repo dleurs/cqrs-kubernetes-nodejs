@@ -160,10 +160,40 @@ Knative Istio controller
 kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.16.0/release.yaml
 ```
 
+## Checking the install
+```bash
+kubectl get pods --namespace istio-system
+kubectl get pods --namespace knative-serving
+```
+
+## Test with a hello world
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: serving.knative.dev/v1 # Current version of Knative
+kind: Service
+metadata:
+  name: helloworld-go # The name of the app
+  namespace: default # The namespace the app will use
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go # Reference to the image of the app
+          env:
+            - name: TARGET # The environment variable printed out by the sample app
+              value: "Go Sample v1"
+EOF
+```
+```bash
+kubectl get ksvc
+kubectl --namespace istio-system get service istio-ingressgateway
+curl -H "Host: helloworld-go.default.example.com" http://51.178.XXX.XXX # Hello World
+```
+
+
 ## DNS configuation
 Without DNS setup, after creating helloworld
 ```bash
-kubectl get svc -n istio-system
 kubectl get ksvc
 kubectl --namespace istio-system get service istio-ingressgateway
 curl -H "Host: helloworld-go.default.example.com" http://51.178.XXX.XXX
@@ -189,13 +219,19 @@ In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry >
 ```bash
 *.default IN A 51.178.XXX.XXX
 ```
-## Install CICD Tekton / Knative Build
+
+## Step 1 : No CICD > bash script 
+## Step 2 : Install CICD Tekton 
+Not tested for now
 https://github.com/dewan-ahmed/Tekton101/blob/master/3%20-%20GitHub%20build-and-push%20Demo.md<br/>
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 ```
-<strong>Change docker user and password</strong>
+```bash
+kubectl get pods --namespace tekton-pipelines
+```
+<strong>!! Bellow, change docker user and password !!</strong>
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -220,28 +256,27 @@ secrets:
   - name: basic-user-pass-docker
 EOF
 ```
-## Checking the install
-```bash
-kubectl get pods --namespace istio-system
-kubectl get pods --namespace knative-serving
-kubectl get pods --namespace tekton-pipelines
-```
-
-## Test with a hello world
 ```bash
 cat <<EOF | kubectl apply -f -
-apiVersion: serving.knative.dev/v1 # Current version of Knative
-kind: Service
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
 metadata:
-  name: helloworld-go # The name of the app
-  namespace: default # The namespace the app will use
+  name: git-source
 spec:
-  template:
-    spec:
-      containers:
-        - image: gcr.io/knative-samples/helloworld-go # Reference to the image of the app
-          env:
-            - name: TARGET # The environment variable printed out by the sample app
-              value: "Go Sample v1"
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: https://github.com/dleurs/cqrs-kubernetes-nodejs/tree/master/Dispatcher # Ensure that there is a Dockerfile in this folder
 EOF
 ```
+
+## Configure HTTPS
+Not yet tested
+```bash
+https://knative.dev/docs/serving/using-a-tls-cert/
+https://knative.dev/docs/serving/using-auto-tls/
+https://cert-manager.io/docs/configuration/acme/dns01/
+```
+
