@@ -71,12 +71,12 @@ cqrs-query-order-657b9f87d-jqh7j       0m           23Mi
 cqrs-stats-order-db-74768cbd54-8t9l9   0m           22Mi
 ```
 
-# Get a K8s cluster
-https://www.ovh.com/manager/public-cloud/
-
-In OVH, two b2-7-FLEX (2 CPU, 7Go RAM) will do
-
 # Install guide
+## Get a K8s cluster
+With OVH : https://www.ovh.com/manager/public-cloud/
+In OVH, two b2-7-FLEX (2 CPU, 7Go RAM) will do.
+It will take around 10 minuts to setup
+
 ## Install Knative and Istio
 https://knative.dev/docs/install/any-kubernetes-cluster/
 
