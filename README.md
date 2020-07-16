@@ -162,6 +162,10 @@ Magic DNS (xip.io)
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-default-domain.yaml
 ```
+If you want to set up a custom domain, instead of using xip.io :
+```bash
+https://knative.dev/docs/serving/using-a-custom-domain/
+```
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -185,5 +189,33 @@ type: kubernetes.io/basic-auth
 stringData:
   username: <your_docker_username>
   password: <your_docker_password>
+EOF
+```
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tekton-sa
+secrets:
+  - name: basic-user-pass-docker
+EOF
+```
+Test with a hello world
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: serving.knative.dev/v1 # Current version of Knative
+kind: Service
+metadata:
+  name: helloworld-go # The name of the app
+  namespace: default # The namespace the app will use
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go # Reference to the image of the app
+          env:
+            - name: TARGET # The environment variable printed out by the sample app
+              value: "Go Sample v1"
 EOF
 ```

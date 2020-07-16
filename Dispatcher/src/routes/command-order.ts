@@ -33,7 +33,8 @@ commandOrderRoutes.get('/', async (_, res, ___) => // _ ,__, ___ = req, res, nex
 {
   console.log(`[Dispatcher] GET on "/" Request received`);
   const title: string = `<h1>Welcome into a simple CQRS example</h1>
-  Hosted on Kubernetes and coded with NodeJS / TypeScript`;
+  Hosted on Kubernetes and coded with NodeJS / TypeScript<br/>
+  <a href="https://github.com/dleurs/cqrs-kubernetes-nodejs">GitHub repository</a>`;
   const addTodoForm: string = `<h3>Add an order</h3> 
   <form action="/order" method="POST">
     <label for="product-select">Choose a product:</label>
