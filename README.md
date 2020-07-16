@@ -76,19 +76,19 @@ https://www.ovh.com/manager/public-cloud/
 
 In OVH, two b2-7-FLEX (2 CPU, 7Go RAM) will do
 
-# Install Istio and Knative 0.16
+# Install guide
+## Install Knative and Istio
 https://knative.dev/docs/install/any-kubernetes-cluster/
 
 Install the Custom Resource Definitions :
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-crds.yaml
 ```
-
 Install the core components of Serving :
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-core.yaml
 ```
-Install istioctl
+Install istioctl on your laptop terminal
 ```bash
 curl -L https://istio.io/downloadIstio | sh -
 cd istio-1.6.5
@@ -96,7 +96,7 @@ export PATH=$PWD/bin:$PATH
 ```
 Install Istio 1.6.5 for Knative with sidecar injection
 ```bash
-cat << EOF > ./istio-minimal-operator.yaml
+cat <<EOF | kubectl apply -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -137,9 +137,6 @@ spec:
 EOF
 ```
 ```bash
-istioctl manifest apply -f istio-minimal-operator.yaml
-```
-```bash
 kubectl label namespace knative-serving istio-injection=enabled
 ```
 ```bash
@@ -158,23 +155,27 @@ Knative Istio controller
 ```bash
 kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.16.0/release.yaml
 ```
+
+## DNS configuation
+Without DNS, after creating helloworld
+```bash
+kubectl get svc -n istio-system
+kubectl get ksvc
+curl -H "Host: helloworld-go.default.example.com" http://192.168.39.228:32198
+```
 Magic DNS (xip.io)
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-default-domain.yaml
 ```
-If you want to set up a custom domain, instead of using xip.io :
+If you want to set up a custom domain :
 ```bash
 https://knative.dev/docs/serving/using-a-custom-domain/
+kubectl edit cm config-domain --namespace knative-serving
 ```
+## Install CICD Tekton / Knative Build
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
-```
-Checking the install
-```bash
-kubectl get pods --namespace istio-system
-kubectl get pods --namespace knative-serving
-kubectl get pods --namespace tekton-pipelines
 ```
 <strong>Change docker user and password</strong>
 ```bash
@@ -201,7 +202,14 @@ secrets:
   - name: basic-user-pass-docker
 EOF
 ```
-Test with a hello world
+## Checking the install
+```bash
+kubectl get pods --namespace istio-system
+kubectl get pods --namespace knative-serving
+kubectl get pods --namespace tekton-pipelines
+```
+
+## Test with a hello world
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: serving.knative.dev/v1 # Current version of Knative
