@@ -138,6 +138,7 @@ EOF
 ```
 ```bash
 istioctl manifest apply -f istio-minimal-operator.yaml
+rm -rf istio-minimal-operator.yaml
 ```
 ```bash
 kubectl label namespace knative-serving istio-injection=enabled
@@ -160,20 +161,33 @@ kubectl apply --filename https://github.com/knative/net-istio/releases/download/
 ```
 
 ## DNS configuation
-Without DNS, after creating helloworld
+Without DNS setup, after creating helloworld
 ```bash
 kubectl get svc -n istio-system
 kubectl get ksvc
-curl -H "Host: helloworld-go.default.example.com" http://192.168.39.228:32198
+kubectl --namespace istio-system get service istio-ingressgateway
+curl -H "Host: helloworld-go.default.example.com" http://51.178.XXX.XXX
 ```
 Magic DNS (xip.io)
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-default-domain.yaml
 ```
-If you want to set up a custom domain :
-```bash
+If you want to set up a custom domain :<br/>
 https://knative.dev/docs/serving/using-a-custom-domain/
+```bash
 kubectl edit cm config-domain --namespace knative-serving
+```
+```bash
+apiVersion: v1
+data:
+  mydomain.com: ""
+kind: ConfigMap
+[...]
+```
+To publish your domain, you need to update your DNS provider to point to the IP address for your service ingress.<br/>
+In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry > 
+```bash
+*.default IN A 51.178.XXX.XXX
 ```
 ## Install CICD Tekton / Knative Build
 https://github.com/dewan-ahmed/Tekton101/blob/master/3%20-%20GitHub%20build-and-push%20Demo.md<br/>
