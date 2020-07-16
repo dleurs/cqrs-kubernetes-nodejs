@@ -73,10 +73,10 @@ cqrs-stats-order-db-74768cbd54-8t9l9   0m           22Mi
 
 # Install guide
 ## Get a K8s cluster
-With OVH : https://www.ovh.com/manager/public-cloud/
-In OVH, two b2-7-FLEX (2 CPU, 7Go RAM) will do.
-It will take around 10 minuts to setup
-
+With OVH : https://www.ovh.com/manager/public-cloud/<br/>
+In OVH, two B2-7-FLEX (2 CPU, 7Go RAM) will do.<br/>
+It will take around 15 minuts to setup.<br/>
+Then, get the kubeconfig and put it on ~/.kube/config
 ## Install Knative and Istio
 https://knative.dev/docs/install/any-kubernetes-cluster/
 
@@ -96,7 +96,7 @@ export PATH=$PWD/bin:$PATH
 ```
 Install Istio 1.6.5 for Knative with sidecar injection
 ```bash
-cat <<EOF | kubectl apply -f -
+cat << EOF > ./istio-minimal-operator.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -137,6 +137,9 @@ spec:
 EOF
 ```
 ```bash
+istioctl manifest apply -f istio-minimal-operator.yaml
+```
+```bash
 kubectl label namespace knative-serving istio-injection=enabled
 ```
 ```bash
@@ -173,6 +176,7 @@ https://knative.dev/docs/serving/using-a-custom-domain/
 kubectl edit cm config-domain --namespace knative-serving
 ```
 ## Install CICD Tekton / Knative Build
+https://github.com/dewan-ahmed/Tekton101/blob/master/3%20-%20GitHub%20build-and-push%20Demo.md<br/>
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
