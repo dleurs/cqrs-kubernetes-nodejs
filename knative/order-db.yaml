@@ -15,3 +15,7 @@ spec:
     spec:
       containers:
         - image: dleurs/cqrs-order-db:1.0.0 # Reference to the image of the app
+          resources:
+            limits:
+              memory: "100Mi"
+              cpu: "50m"

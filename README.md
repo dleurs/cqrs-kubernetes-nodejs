@@ -70,3 +70,99 @@ cqrs-process-data-b988f897d-hf6j7      0m           23Mi
 cqrs-query-order-657b9f87d-jqh7j       0m           23Mi            
 cqrs-stats-order-db-74768cbd54-8t9l9   0m           22Mi
 ```
+
+# Get a K8s cluster
+https://www.ovh.com/manager/public-cloud/
+
+In OVH, a single b2-7-FLEX will do (2 CPU, 7Go RAM)
+# Install Istio and Knative 0.16
+https://knative.dev/docs/install/any-kubernetes-cluster/
+
+Install the Custom Resource Definitions :
+```bash
+kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-crds.yaml
+```
+
+Install the core components of Serving :
+```bash
+kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-core.yaml
+```
+Install istioctl
+```bash
+curl -L https://istio.io/downloadIstio | sh -
+cd istio-1.6.5
+export PATH=$PWD/bin:$PATH
+```
+Install Istio 1.6.5 for Knative with sidecar injection
+```bash
+cat << EOF > ./istio-minimal-operator.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    global:
+      proxy:
+        autoInject: enabled
+      useMCP: false
+      # The third-party-jwt is not enabled on all k8s.
+      # See: https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens
+      jwtPolicy: first-party-jwt
+
+  addonComponents:
+    pilot:
+      enabled: true
+    prometheus:
+      enabled: false
+
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+      - name: cluster-local-gateway
+        enabled: true
+        label:
+          istio: cluster-local-gateway
+          app: cluster-local-gateway
+        k8s:
+          service:
+            type: ClusterIP
+            ports:
+            - port: 15020
+              name: status-port
+            - port: 80
+              name: http2
+            - port: 443
+              name: https
+EOF
+```
+```bash
+istioctl manifest apply -f istio-minimal-operator.yaml
+```
+```bash
+kubectl label namespace knative-serving istio-injection=enabled
+```
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default"
+  namespace: "knative-serving"
+spec:
+  mtls:
+    mode: PERMISSIVE
+EOF
+```
+Knative Istio controller
+```bash
+kubectl apply --filename https://github.com/knative/net-istio/releases/download/v0.16.0/release.yaml
+```
+Magic DNS (xip.io)
+```bash
+kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-default-domain.yaml
+```
+Checking the install
+```bash
+kubectl get pods --namespace istio-system
+kubectl get pods --namespace knative-serving
+```

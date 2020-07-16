@@ -1,8 +1,8 @@
-apiVersion: serving.knative.dev/v1 # Current version of Knative
+apiVersion: serving.knative.dev/v1 
 kind: Service
 metadata:
-  name: cqrs-process-data # The name of the app
-  namespace: default # The namespace the app will use
+  name: cqrs-process-data 
+  namespace: default 
   labels:
     serving.knative.dev/visibility: cluster-local
 spec:
@@ -12,9 +12,11 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-process-data:1.0.0 # Reference to the image of the app
-          #ports: => reserved in knative
-          #- containerPort: 8080
+        - image: dleurs/cqrs-process-data:1.0.0 
+          resources:
+            limits:
+              memory: "100Mi"
+              cpu: "50m"
           env:
             #- name: PORT
             #  value: "8080"
