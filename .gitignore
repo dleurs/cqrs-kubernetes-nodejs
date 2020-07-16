@@ -1,3 +1,4 @@
 node_modules/
 build/
 basic-nodejs-app.tar
+cicd-tekton/docker-credentials-secret.yaml

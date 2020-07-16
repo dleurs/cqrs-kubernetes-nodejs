@@ -224,6 +224,7 @@ In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry >
 ## Step 2 : Install CICD Tekton 
 Not tested for now
 https://github.com/dewan-ahmed/Tekton101/blob/master/3%20-%20GitHub%20build-and-push%20Demo.md<br/>
+https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -237,7 +238,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  name: basic-user-pass-docker
+  name: docker-credentials-secret
   annotations:
     tekton.dev/docker-0: https://index.docker.io # Described below
 type: kubernetes.io/basic-auth
@@ -253,22 +254,7 @@ kind: ServiceAccount
 metadata:
   name: tekton-sa
 secrets:
-  - name: basic-user-pass-docker
-EOF
-```
-```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: git-source
-spec:
-  type: git
-  params:
-    - name: revision
-      value: master
-    - name: url
-      value: https://github.com/dleurs/cqrs-kubernetes-nodejs/tree/master/Dispatcher # Ensure that there is a Dockerfile in this folder
+  - name: docker-credentials-secret
 EOF
 ```
 

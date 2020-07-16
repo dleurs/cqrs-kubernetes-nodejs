@@ -1,0 +1,24 @@
+{
+    "name": "basic-node-ts",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./src/main.ts",
+    "scripts": {
+        "build": "tsc",
+        "clean": "/bin/rm -rf ./build",
+        "prestart": "npm run clean; npm run build",
+        "start": "node ./build/test.js",
+        "dev": "nodemon --inspect src/test.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/node": "^14.0.14",
+        "body-parser": "^1.19.0",
+        "typescript": "^3.9.5"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4",
+        "ts-node": "^8.10.2"
+    }
+}

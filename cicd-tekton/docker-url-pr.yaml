@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-url-pr
+spec:
+  type: image
+  params:
+    - name: url-dispatcher
+      value: index.docker.io/dleurs/cqrs-dispatcher
+    # - name: url-command-order
+    #   value: index.docker.io/dleurs/cqrs-command-order
+    # - name: url-order-db
+    #   value: index.docker.io/dleurs/cqrs-order-db
+    # - name: url-process-data
+    #   value: index.docker.io/dleurs/cqrs-process-data
+    # - name: url-query-order
+    #   value: index.docker.io/dleurs/cqrs-query-order
+    # - name: url-stats-order-db
+    #   value: index.docker.io/dleurs/cqrs-stats-order-db
