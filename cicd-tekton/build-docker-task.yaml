@@ -1,17 +1,17 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: build-docker-task
 spec:
   inputs:
     resources:
-      - name: git-source-pipeline-resource
+      - name: git-source-pr
         type: git
     params:
       - name: pathToDockerFile
         type: string
         description: The path to the dockerfile to build
-        default: /workspace/docker-source/dispatcher/Dockerfile
+        default: /workspace/docker-source/Dockerfile
       - name: pathToContext
         type: string
         description:
