@@ -74,7 +74,8 @@ cqrs-stats-order-db-74768cbd54-8t9l9   0m           22Mi
 # Get a K8s cluster
 https://www.ovh.com/manager/public-cloud/
 
-In OVH, a single b2-7-FLEX will do (2 CPU, 7Go RAM)
+In OVH, two b2-7-FLEX (2 CPU, 7Go RAM) will do
+
 # Install Istio and Knative 0.16
 https://knative.dev/docs/install/any-kubernetes-cluster/
 
@@ -161,8 +162,28 @@ Magic DNS (xip.io)
 ```bash
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.16.0/serving-default-domain.yaml
 ```
+Install Tekton
+```bash
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+```
 Checking the install
 ```bash
 kubectl get pods --namespace istio-system
 kubectl get pods --namespace knative-serving
+kubectl get pods --namespace tekton-pipelines
+```
+<strong>Change docker user and password</strong>
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-user-pass-docker
+  annotations:
+    tekton.dev/docker-0: https://index.docker.io # Described below
+type: kubernetes.io/basic-auth
+stringData:
+  username: <your_docker_username>
+  password: <your_docker_password>
+EOF
 ```
