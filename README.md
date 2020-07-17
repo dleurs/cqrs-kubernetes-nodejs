@@ -222,9 +222,7 @@ In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry >
 
 ## Step 1 : No CICD > bash script 
 ## Step 2 : Install CICD Tekton 
-Not tested for now
-https://github.com/dewan-ahmed/Tekton101/blob/master/3%20-%20GitHub%20build-and-push%20Demo.md<br/>
-https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
+Not tested for now<br/>
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -232,31 +230,41 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline
 ```bash
 kubectl get pods --namespace tekton-pipelines
 ```
+https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
 <strong>!! Bellow, change docker user and password !!</strong>
 ```bash
 cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: docker-credentials-secret
-  annotations:
-    tekton.dev/docker-0: https://index.docker.io # Described below
-type: kubernetes.io/basic-auth
-stringData:
-  username: <your_docker_username>
-  password: <your_docker_password>
+
+EOF
+
+```
+```bash
+cat <<EOF | kubectl apply -f -
+
 EOF
 ```
 ```bash
 cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tekton-sa
-secrets:
-  - name: docker-credentials-secret
+
 EOF
 ```
+```bash
+cat <<EOF | kubectl apply -f -
+
+EOF
+```
+```bash
+cat <<EOF | kubectl apply -f -
+
+EOF
+```
+```bash
+cat <<EOF | kubectl apply -f -
+
+EOF
+```
+
+tkn taskrun delete build-docker-tr --force;k replace -f cicd-tekton/build-docker-task.yaml;k create -f cicd-tekton/build-docker-tr.yaml; tkn taskrun describe build-docker-tr
 
 ## Configure HTTPS
 Not yet tested
