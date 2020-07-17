@@ -4,7 +4,8 @@ FROM node:12
 # ENV NODE_ENV=${DOCKER_NODE_ENV}
 
 WORKDIR /usr/cqrs-kubernetes-nodejs/dispatcher
-COPY ./package*.json ./
+COPY ./package.json ./
+COPY ./package-lock.json ./
 RUN npm install
 COPY . .
 RUN mv utils ..

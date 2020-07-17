@@ -5,8 +5,8 @@ metadata:
 spec:
   type: image
   params:
-    - name: url-dispatcher
-      value: index.docker.io/dleurs/cqrs-dispatcher
+    - name: url
+      value: index.docker.io/dleurs/cqrs-dispatcher:1.1.6
     # - name: url-command-order
     #   value: index.docker.io/dleurs/cqrs-command-order
     # - name: url-order-db
