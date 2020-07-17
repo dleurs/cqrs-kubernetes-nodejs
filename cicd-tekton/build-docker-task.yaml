@@ -11,13 +11,13 @@ spec:
       - name: pathToDockerFile
         type: string
         description: The path to the dockerfile to build
-        default: /workspace/docker-source/Dockerfile
+        default: /workspace/git-source-pr/Dockerfile
       - name: pathToContext
         type: string
         description:
           The build context used by Kaniko
           (https://github.com/GoogleContainerTools/kaniko#kaniko-build-contexts)
-        default: /workspace/docker-source
+        default: /workspace/git-source-pr
   outputs:
     resources:
       - name: builtImage
@@ -30,7 +30,7 @@ spec:
         - name: "DOCKER_CONFIG"
           value: "/tekton/home/.docker/"
       command:
-        - /kaniko/executor
+        - /kaniko/executor 
       args:
         - --dockerfile=$(inputs.params.pathToDockerFile)
         - --destination=$(outputs.resources.builtImage.url)

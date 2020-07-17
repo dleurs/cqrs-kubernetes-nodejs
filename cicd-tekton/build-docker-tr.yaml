@@ -13,7 +13,7 @@ spec:
           name: git-source-pr
     params:
       - name: pathToDockerFile
-        value: /workspace/docker-source/dispatcher/Dockerfile
+        value: Dispatcher/Dockerfile
       - name: pathToContext
         value: /workspace/git-source-pr
   outputs:
