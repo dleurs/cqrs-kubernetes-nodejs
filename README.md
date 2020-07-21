@@ -222,7 +222,7 @@ In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry >
 
 ## Step 1 : No CICD > bash script 
 ## Step 2 : Install Tekton Pipeline
-Not tested for now<br/>
+Tested only for small exampleow<br/>
 Install Tekton
 ```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -230,6 +230,8 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline
 ```bash
 kubectl get pods --namespace tekton-pipelines
 ```
+
+## Step 3.0 : Testing Tekton with small helloworld
 https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -260,7 +262,7 @@ spec:
 EOF
 ```
 ```bash
-vim cicd-tekton/task.yaml;
+vim cicd-tekton/small-example/task.yaml;
 
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -287,7 +289,7 @@ spec:
         type: image
   steps:
     - name: build-and-push
-      image: gcr.io/kaniko-project/executor:v0.17.1
+      image: gcr.io/kaniko-project/executor:v0.16.0
       # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
       env:
         - name: "DOCKER_CONFIG"
@@ -299,7 +301,7 @@ spec:
         - --destination=$(resources.outputs.builtImage.url)
         - --context=$(params.pathToContext)
 
-kubectl apply -f cicd-tekton/task.yaml
+kubectl apply -f cicd-tekton/small-example/task.yaml
 ```
 ```bash
 kubectl create secret docker-registry regcred \
@@ -319,7 +321,7 @@ secrets:
 EOF
 ```
 ```bash
-vim cicd-tekton/task-run.yaml
+vim cicd-tekton/small-example/task-run.yaml
 
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
@@ -342,7 +344,7 @@ spec:
         resourceRef:
           name: skaffold-image-leeroy-web
 
-kubectl apply -f cicd-tekton/task-run.yaml
+kubectl apply -f cicd-tekton/small-example/task-run.yaml
 ```
 ```basg
 tkn taskrun describe build-docker-image-from-git-source-task-run
