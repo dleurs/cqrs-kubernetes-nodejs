@@ -8,7 +8,7 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm install
 COPY . .
-RUN mv ../utils ..
+RUN mv utils ..
 
 EXPOSE ${PORT}
 CMD [ "npm", "start" ]

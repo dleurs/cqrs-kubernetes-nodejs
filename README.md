@@ -254,9 +254,9 @@ kubectl apply -f cicd-tekton/small-example/task-run.yaml
 ```bash
 tkn taskrun describe build-docker-image-from-git-source-task-run
 tkn taskrun logs build-docker-image-from-git-source-task-run
-tkn taskrun delete build-docker-image-from-git-source-task-run --force
 ```
 ```bash
+tkn taskrun delete build-docker-image-from-git-source-task-run --force
 kubectl delete -f cicd-tekton/small-example
 kubectl delete secret regcred
 ```
@@ -267,6 +267,24 @@ kubectl create secret docker-registry docker-creds \
                     --docker-server=index.docker.io \
                     --docker-username=<your-name> \
                     --docker-password=<your-pword> 
+```
+```bash
+kubectl apply -f cicd-tekton/tekton-sa.yaml
+kubectl apply -f cicd-tekton/git-source-resc.yaml
+kubectl apply -f cicd-tekton/docker-targets-resc.yaml
+kubectl apply -f cicd-tekton/build-task.yaml
+kubectl apply -f cicd-tekton/builds-task-run.yaml
+```
+```bash
+tkn taskrun describe build-dispatcher-task-run
+tkn taskrun logs build-dispatcher-task-run
+```
+```bash
+tkn taskrun delete build-dispatcher-task-run --force
+kubectl delete -f cicd-tekton
+kubectl delete secret docker-creds
+
+tkn taskrun delete build-dispatcher-task-run --force; kubectl apply -f cicd-tekton/builds-task-run.yaml
 ```
 
 ## Step 4 : Install Tekton Triggers
