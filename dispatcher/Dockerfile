@@ -8,6 +8,8 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm install
 COPY . .
+# Next line test with tekton, not working with script
+COPY ../utils . 
 RUN mv utils ..
 
 EXPOSE ${PORT}
