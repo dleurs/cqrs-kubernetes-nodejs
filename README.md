@@ -235,30 +235,7 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline
 kubectl get pods --namespace tekton-pipelines
 ```
 
-## Step 3.0 : Testing Tekton with small helloworld
-https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
-```bash
-kubectl create secret docker-registry regcred \
-                    --docker-server=index.docker.io \
-                    --docker-username=<your-name> \
-                    --docker-password=<your-pword>
-```
-```bash
-kubectl apply -f cicd-tekton/small-example/sa.yaml
-kubectl apply -f cicd-tekton/small-example/skaffold-git-resc.yaml
-kubectl apply -f cicd-tekton/small-example/docker-target-resc.yaml
-kubectl apply -f cicd-tekton/small-example/task.yaml
-kubectl apply -f cicd-tekton/small-example/task-run.yaml
 
-```
-```bash
-tkn taskrun describe build-docker-image-from-git-source-task-run
-tkn taskrun logs build-docker-image-from-git-source-task-run
-```
-```bash
-tkn taskrun delete build-docker-image-from-git-source-task-run --force
-kubectl delete -f cicd-tekton/small-example
-kubectl delete secret regcred
 ```
 ## Step 3.1 : Testing Tekton with current project
 
@@ -270,9 +247,12 @@ kubectl create secret docker-registry docker-creds \
 ```
 ```bash
 kubectl apply -f cicd-tekton/tekton-sa.yaml
-kubectl apply -f cicd-tekton/git-source-resc.yaml
 kubectl apply -f cicd-tekton/docker-targets-resc.yaml
 kubectl apply -f cicd-tekton/build-task.yaml
+```
+### Choose
+```bash
+kubectl apply -f cicd-tekton/git-source-resc.yaml
 kubectl apply -f cicd-tekton/builds-task-run.yaml
 ```
 ```bash
