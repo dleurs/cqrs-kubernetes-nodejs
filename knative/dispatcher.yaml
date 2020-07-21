@@ -10,7 +10,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-        - image: dleurs/cqrs-dispatcher:1.1.5
+        - image: dleurs/cqrs-dispatcher:1.1.4
           #resources:
           #  requests:
           #    memory: "100Mi"

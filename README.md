@@ -234,76 +234,6 @@ kubectl get pods --namespace tekton-pipelines
 ## Step 3.0 : Testing Tekton with small helloworld
 https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: skaffold-git
-spec:
-  type: git
-  params:
-    - name: revision
-      value: master
-    - name: url
-      value: https://github.com/dleurs/tekton-basic-nodejs-app
-EOF
-```
-```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: skaffold-image-leeroy-web
-spec:
-  type: image
-  params:
-    - name: url
-      value: index.docker.io/dleurs/tekton-basic-nodejs-app:1.0.0
-EOF
-```
-```bash
-vim cicd-tekton/small-example/task.yaml;
-
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: build-docker-image-from-git-source
-spec:
-  params:
-    - name: pathToDockerFile
-      type: string
-      description: The path to the dockerfile to build
-      default: $(resources.inputs.docker-source.path)/Dockerfile
-    - name: pathToContext
-      type: string
-      description: |
-        The build context used by Kaniko
-        (https://github.com/GoogleContainerTools/kaniko#kaniko-build-contexts)
-      default: $(resources.inputs.docker-source.path)
-  resources:
-    inputs:
-      - name: docker-source
-        type: git
-    outputs:
-      - name: builtImage
-        type: image
-  steps:
-    - name: build-and-push
-      image: gcr.io/kaniko-project/executor:v0.16.0
-      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
-      env:
-        - name: "DOCKER_CONFIG"
-          value: "/tekton/home/.docker/"
-      command:
-        - /kaniko/executor
-      args:
-        - --dockerfile=$(params.pathToDockerFile)
-        - --destination=$(resources.outputs.builtImage.url)
-        - --context=$(params.pathToContext)
-
-kubectl apply -f cicd-tekton/small-example/task.yaml
-```
-```bash
 kubectl create secret docker-registry regcred \
                     --docker-server=index.docker.io \
                     --docker-username=<your-name> \
@@ -311,49 +241,25 @@ kubectl create secret docker-registry regcred \
                     --docker-email=<your-email>
 ```
 ```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tutorial-service
-secrets:
-  - name: regcred
-EOF
+kubectl apply -f cicd-tekton/small-example/sa.yaml
+kubectl apply -f cicd-tekton/small-example/skaffold-git-resc.yaml
+kubectl apply -f cicd-tekton/small-example/docker-target-resc.yaml
+kubectl apply -f cicd-tekton/small-example/task.yaml
+kubectl apply -f cicd-tekton/small-example/task-run.yaml
+
 ```
 ```bash
-vim cicd-tekton/small-example/task-run.yaml
-
-apiVersion: tekton.dev/v1beta1
-kind: TaskRun
-metadata:
-  name: build-docker-image-from-git-source-task-run
-spec:
-  serviceAccountName: tutorial-service
-  taskRef:
-    name: build-docker-image-from-git-source
-  params:
-    - name: pathToDockerFile
-      value: Dockerfile
-  resources:
-    inputs:
-      - name: docker-source
-        resourceRef:
-          name: skaffold-git
-    outputs:
-      - name: builtImage
-        resourceRef:
-          name: skaffold-image-leeroy-web
-
-kubectl apply -f cicd-tekton/small-example/task-run.yaml
-```
-```basg
 tkn taskrun describe build-docker-image-from-git-source-task-run
 tkn taskrun logs build-docker-image-from-git-source-task-run
 tkn taskrun delete build-docker-image-from-git-source-task-run --force
-
-tkn taskrun delete build-docker-image-from-git-source-task-run --force; k replace -f cicd-tekton/task.yaml;kubectl apply -f cicd-tekton/task-run.yaml;
 ```
-## Step 3 : Install Tekton Triggers
+```bash
+kubectl delete -f cicd-tekton/small-example
+kubectl delete secret regcred
+```
+## Step 3.1 : Testing Tekton with current project
+
+## Step 4 : Install Tekton Triggers
 
 ## Configure HTTPS
 Not yet tested

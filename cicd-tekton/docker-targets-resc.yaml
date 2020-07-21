@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-dispatcher-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-dispatcher:1.1.5
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-command-order-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-command-order:1.0.0
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-process-data-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-process-data:1.0.0
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-query-order-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-query-order:1.0.0
+---
+
+
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-order-db-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-query-order:1.0.0
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: docker-target-query-order-resc
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/dleurs/cqrs-query-order:1.0.0
+---
