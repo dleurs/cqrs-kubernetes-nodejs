@@ -220,6 +220,10 @@ In OVH, Web > Domains > mydomain.com > DNS Zone > Add an entry >
 *.default IN A 51.178.XXX.XXX
 ```
 
+To remove namespace from URL, for example http://helloworld-go.dleurs.fr instead of http://helloworld-go.default.dleurs.fr :<br/>
+In OVH, Web > Domains > mydomain.com > Redirect > Add a redirection
+
+helloworld-go.dleurs.fr, with tick wwww. > Tick to other web address > Tick invisible redirect > http://helloworld-go.default.dleurs.fr
 ## Step 1 : No CICD > bash script 
 ## Step 2 : Install Tekton Pipeline
 Tested only for small exampleow<br/>
@@ -237,8 +241,7 @@ https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
 kubectl create secret docker-registry regcred \
                     --docker-server=index.docker.io \
                     --docker-username=<your-name> \
-                    --docker-password=<your-pword> \
-                    --docker-email=<your-email>
+                    --docker-password=<your-pword>
 ```
 ```bash
 kubectl apply -f cicd-tekton/small-example/sa.yaml
@@ -258,6 +261,13 @@ kubectl delete -f cicd-tekton/small-example
 kubectl delete secret regcred
 ```
 ## Step 3.1 : Testing Tekton with current project
+
+```bash
+kubectl create secret docker-registry docker-creds \
+                    --docker-server=index.docker.io \
+                    --docker-username=<your-name> \
+                    --docker-password=<your-pword> 
+```
 
 ## Step 4 : Install Tekton Triggers
 
