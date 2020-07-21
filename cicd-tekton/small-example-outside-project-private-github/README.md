@@ -17,7 +17,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: <username>
-  password: <password>
+  password: <github-oath-token> # To get the token, GitHub.com > Settings (click top right, on bubble profile) > Developer settings (Vertical menu on the right, last choice) > Personal Access Token > Generate new token > just check repo and add note > that's it
 EOF
 ```
 ```bash

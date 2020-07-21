@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: index.docker.io/dleurs/tekton-basic-nodejs-app-private-repo:1.0.1
+      value: index.docker.io/dleurs/tekton-basic-nodejs-app-private-repo:1.0.2
