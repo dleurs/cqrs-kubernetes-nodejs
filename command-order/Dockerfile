@@ -4,10 +4,14 @@ FROM node:12
 # ENV NODE_ENV=${DOCKER_NODE_ENV}
 
 WORKDIR /usr/cqrs-kubernetes-nodejs/command-order
-COPY ./package*.json ./
+COPY ./package.json ./
+COPY ./package-lock.json ./
 RUN npm install
 COPY . .
-RUN mv utils ..
+# Next line test with tekton, not working with script
+COPY ../utils . 
+# Next line working in local
+#RUN mv utils ..
 
 EXPOSE ${PORT}
 CMD [ "npm", "start" ]

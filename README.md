@@ -234,10 +234,9 @@ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline
 ```bash
 kubectl get pods --namespace tekton-pipelines
 ```
-
-
-```
-## Step 3.1 : Testing Tekton with current project
+## Step 3 : Testing Tekton 
+https://github.com/tektoncd/pipeline/blob/master/docs/README.md<br/>
+https://github.com/tektoncd/pipeline/blob/master/docs/auth.md#basic-authentication-git<br/>
 
 ```bash
 kubectl create secret docker-registry docker-creds \
@@ -250,10 +249,10 @@ kubectl apply -f cicd-tekton/tekton-sa.yaml
 kubectl apply -f cicd-tekton/docker-targets-resc.yaml
 kubectl apply -f cicd-tekton/build-task.yaml
 ```
-### Choose
+### Choose what service you want to build
 ```bash
-kubectl apply -f cicd-tekton/git-source-resc.yaml
-kubectl apply -f cicd-tekton/builds-task-run.yaml
+kubectl apply -f cicd-tekton/git-source-resc.yaml # Modify image git
+kubectl apply -f cicd-tekton/build-XXXXXX-task-run.yaml
 ```
 ```bash
 tkn taskrun describe build-dispatcher-task-run
@@ -277,3 +276,15 @@ https://knative.dev/docs/serving/using-auto-tls/
 https://cert-manager.io/docs/configuration/acme/dns01/
 ```
 
+
+
+## Installation using Rancher
+https://rancher.com/docs/rancher/v2.x/en/installation/k8s-install/helm-rancher/#1-install-the-required-cli-tools<br/>
+
+```bash
+helm install rancher rancher-latest/rancher \
+  --namespace cattle-system \
+  --set hostname=rancher.default.dleurs.fr \     
+  --set ingress.tls.source=letsEncrypt \
+  --set letsEncrypt.email=contact@dleurs.fr
+```

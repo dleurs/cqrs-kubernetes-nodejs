@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: build-command-order-task-run
+spec:
+  serviceAccountName: tekton-sa
+  taskRef:
+    name: build-task
+  params:
+    - name: pathToDockerFile
+      value: Dockerfile
+    - name: pathToContext
+      value: /workspace/git-source/command-order
+  resources:
+    inputs:
+      - name: git-source
+        resourceRef:
+          name: git-source-resc
+    outputs:
+      - name: builtImage
+        resourceRef:
+          name: docker-target-command-order-resc
